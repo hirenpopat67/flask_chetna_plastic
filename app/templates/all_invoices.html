@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}
+All Invoices
+{% endblock title %}
+
+{% block body %}
+
+{% if data|length == 0 %}
+<center><h1>No Invoice Found</h1></center>
+{% else %}
+
+<center><h1>All Invoices</h1></center>
+<br>
+
+
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Sr No.</th>
+            <th scope="col">Invoice No.</th>
+            <th scope="col">Date</th>
+            <th scope="col">Customer Name</th>
+            <th scope="col">Customer Place</th>
+            <th scope="col">Parcel Details</th>
+            <th scope="col">Sub Total</th>
+            <th scope="col">Final Bill</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+              <th scope="row">{{loop.index}}</th>
+              <td>{{item.invoice_no}}</td>
+              <td>{{item.invoice_date if item.invoice_date != 'None'}}</td>
+              <td>{{item.customer_name}}</td>
+              <td>{{item.customer_place}}</td>
+              <td>{{item.invoice_parcel_details}}</td>
+              <td>{{item.sub_total_amount}}</td>
+              <td>{{item.final_bill_amount}}</td>
+              <td>
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic mixed styles example">
+                  <button type="button" class="btn btn-success">Update</button>
+                  <button type="button" value="{{item.id}}" class="btn btn-danger btndelete">Delete</button>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </tbody>
+      </table>
+  </div>
+  <form action="/delete_invoice" method="POST">
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- Vertically centered modal -->
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="deletemessage"> </div>
+        <input type="hidden"  id="delete_invoice_id" class="form-control" name="delete_invoice_id" value=""/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  $(document).ready(function() {
+      $('.btndelete').click(function() {
+        var id = $(this).val();
+        $('#delete_invoice_id').val(id)
+        $('#deletemessage').text(`You want to delete record?`);
+        $('#exampleModal').modal("show");
+      });
+  });
+</script>
+
+{% endblock body %}

@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Add Invoice
+{% endblock title %}
+
+{% block body %}
+
+<center><h1>Add Invoice</h1></center>
+
+<br>
+
+<div class="container">
+    <form class="row g-3">
+          
+          <div class="col-md-6 form-floating">
+            
+            <input type="text" class="form-control" id="getcustomername" placeholder="Customer Name" list="customer_names">
+            <label for="floatingPassword">Customer Name</label>
+          </div>
+
+          <datalist id="customer_names">
+            {% for x in context.all_customers %}
+
+            <option value="{{x.customer_name}}">{{x.customer_name}} {{x.customer_place}}</option>
+            {% endfor %}
+        </datalist>
+
+          <div class="col-md-6 form-floating">
+            <input type="number" class="form-control" id="customer_mobile_no" placeholder="Customer Mobile Number" disabled>
+            <label for="floatingPassword">Customer Mobile Number</label>
+          </div>
+  
+          <div class="col-md-6 form-floating">
+            <input type="text" class="form-control" id="customer_place" placeholder="Customer Place" disabled>
+            <label for="floatingPassword">Customer Place</label>
+          </div>
+
+          <div class="col-md-6 form-floating">
+            <input type="text" class="form-control" id="customer_gst_no" placeholder="Customer GST Number" disabled>
+            <label for="floatingPassword">Customer GST Number</label>
+        </div>
+
+        <div class="col-md-3 form-floating">
+            <input type="text" class="form-control" id="" placeholder="Parcel Details">
+            <label for="floatingPassword">Parcel Details</label>
+        </div>
+        <div class="col-md-3 form-floating">
+            <input type="number" class="form-control" id="" placeholder="Total Parcel">
+            <label for="floatingPassword">Total Parcel</label>
+            </div>
+
+          <div class="col-md-3 form-floating">
+            <input type="number" class="form-control" value="{{context.fetch_last_invoice_no}}" id="" placeholder="Invoice Number">
+            <label for="floatingPassword">Invoice Number</label>
+            </div>
+            <div class="col-md-3 form-floating">
+                <input type="date" class="form-control" value="{{context.today_invoice_date}}" id="" placeholder="Date">
+                <label for="floatingPassword">Date</label>
+            </div>
+            
+        <button type="button" class="btn btn-primary">Add Items</button>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">SR NO</th>
+                    <th scope="col">PRODUCT NAME</th>
+                    <th scope="col">QTY</th>
+                <th scope="col">PRODUCT PRICE</th>
+                <th scope="col">TOTAL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+                <td>@mdo</td>
+              </tr>
+            </tbody>
+          </table>
+
+      </form>
+</div>
+
+
+<script>
+        $(document).ready(function () {
+        // this is the name from ((Input)) with datalist
+        var DeptValue = document.getElementById('getcustomername');
+        // Adding Event Listener to get the value	
+        DeptValue.addEventListener('input', function () {
+            $.get(`/get_single_customer_from_id/${DeptValue.value}`,
+                function (data) {
+                    // data = JSON.parse(data)
+                    // console.log(data)
+                    $("#customer_place").val(data["customer_place"]);
+                    $("#customer_mobile_no").val(data["mobile_no"]);
+                    $("#customer_gst_no").val(data["gst_no"]);
+                })
+        });
+    });
+</script>
+{% endblock body %}

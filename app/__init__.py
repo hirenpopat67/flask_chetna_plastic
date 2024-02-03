@@ -1,0 +1,79 @@
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+import os
+from dotenv import load_dotenv
+load_dotenv()
+from importlib import import_module
+import logging
+from logging.handlers import  RotatingFileHandler
+
+
+
+app = Flask(__name__,static_folder='static',template_folder='templates')
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+app.config['SECRET_KEY'] = 'Hiren'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI','sqlite:///' + os.path.join(basedir, 'flask_app.db'))
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+
+
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
+
+def register_blueprints(app):
+
+    folder_list = ['routes']
+
+    for folder in folder_list:
+    
+        for filename in os.listdir(f'app/{folder}/'):
+            if filename.endswith('.py'):
+                module_name = filename[:-3]
+                blueprint_module = import_module(f'app.{folder}.{module_name}')
+                try:
+                    blueprint = getattr(blueprint_module, f'{module_name}_blueprint')
+                    app.register_blueprint(blueprint)
+                except Exception as e:
+                    app.logger.exception(f"Failed to register blueprint for file: {module_name} Error: {str(e)}")
+
+
+
+try:
+    if not os.path.exists('./logs'):
+        os.mkdir('./logs')
+
+    file_handler = RotatingFileHandler("./logs/ChetnaPlastic.log",maxBytes=200000, backupCount=5)
+
+    file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s [path = %(pathname)s:%(lineno)d]'))
+
+    file_handler.setLevel(logging.DEBUG)
+    app.logger.setLevel(logging.DEBUG)
+    app.logger.addHandler(file_handler)
+
+    app.logger.info('ChetnaPlastic startup')
+except:
+    app.logger.exception("Logging is Disabled!")
+
+
+
+def create_env_file():
+    try:
+        file_name = ".env"
+        file_path = os.path.join(os.getcwd(), file_name)
+
+        if not os.path.exists(file_path):
+            print("Creating .env file...")
+            print(".env File Is Created...")
+            print("Please Update The .env File Variables Now... & Run the App")
+            with open(file_path, 'w') as f:
+                f.write(
+''' # Flask App Settings
+
+''')
+    
+    except Exception as e:
+        print("Some Error Occurred", e)
