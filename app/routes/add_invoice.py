@@ -1,5 +1,5 @@
 from flask import Blueprint,render_template,redirect,current_app,request,flash
-from app.models.models import Invoices,Customers
+from app.models.models import Invoices,Customers,Products
 from datetime import datetime
 
 add_invoice_blueprint = Blueprint('add_invoice_blueprint', __name__)
@@ -20,11 +20,14 @@ def add_invoice():
 
         today_invoice_date = datetime.strftime(datetime.now(), '%Y-%m-%d')
 
+        all_products = Products.query.order_by(Products.product_name).all()
+
         context = {
 
         'all_customers': all_customers,
         'fetch_last_invoice_no': fetch_last_invoice_no,
         'today_invoice_date': today_invoice_date,
+        'all_products': all_products,
 
     }
         

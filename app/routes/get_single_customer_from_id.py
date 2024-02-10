@@ -4,12 +4,12 @@ from app.models.models import Customers
 get_single_customer_from_id_blueprint = Blueprint('get_single_customer_from_id_blueprint', __name__)
 
 
-@get_single_customer_from_id_blueprint.route('/get_single_customer_from_id/<string:customer_name>')
-def get_single_customer_from_id(customer_name):
+@get_single_customer_from_id_blueprint.route('/get_single_customer_from_id/<string:id>')
+def get_single_customer_from_id(id):
     try:
         data = {}
 
-        filter_cus = Customers.query.filter(Customers.customer_name == customer_name).first()
+        filter_cus = Customers.query.filter(Customers.id == id).first()
 
         if filter_cus:
             for column in filter_cus.__table__.columns:
