@@ -1,15 +1,15 @@
 from flask import Blueprint,render_template,redirect,current_app,request,flash,jsonify
 from app.models.models import Customers
 
-get_single_customer_from_id_blueprint = Blueprint('get_single_customer_from_id_blueprint', __name__)
+get_single_customer_blueprint = Blueprint('get_single_customer_blueprint', __name__)
 
 
-@get_single_customer_from_id_blueprint.route('/get_single_customer_from_id/<string:id>')
-def get_single_customer_from_id(id):
+@get_single_customer_blueprint.route('/get_single_customer/<string:customer_name>')
+def get_single_customer(customer_name):
     try:
         data = {}
 
-        filter_cus = Customers.query.filter(Customers.id == id).first()
+        filter_cus = Customers.query.filter(Customers.customer_name == customer_name).first()
 
         if filter_cus:
             for column in filter_cus.__table__.columns:

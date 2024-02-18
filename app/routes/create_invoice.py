@@ -2,11 +2,11 @@ from flask import Blueprint,render_template,redirect,current_app,request,flash
 from app.models.models import Invoices,Customers,Products
 from datetime import datetime
 
-add_invoice_blueprint = Blueprint('add_invoice_blueprint', __name__)
+create_invoice_blueprint = Blueprint('create_invoice_blueprint', __name__)
 
 
-@add_invoice_blueprint.route('/add_invoice')
-def add_invoice():
+@create_invoice_blueprint.route('/create_invoice')
+def create_invoice():
     try:
 
         all_customers = Customers.query.order_by(Customers.customer_name).all()
@@ -31,7 +31,7 @@ def add_invoice():
 
     }
         
-        return render_template('add_invoice.html',context=context)
+        return render_template('create_invoice.html',context=context)
 
     except Exception as e:
         current_app.logger.error(f"{str(e)} WHICH_API = {request.path}", exc_info=True)

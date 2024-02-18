@@ -1,15 +1,15 @@
 from flask import Blueprint,render_template,redirect,current_app,request,flash,jsonify
 from app.models.models import Products
 
-get_single_product_from_id_blueprint = Blueprint('get_single_product_from_id_blueprint', __name__)
+get_single_product_blueprint = Blueprint('get_single_product_blueprint', __name__)
 
 
-@get_single_product_from_id_blueprint.route('/get_single_product_from_id/<string:id>')
-def get_single_product_from_id(id):
+@get_single_product_blueprint.route('/get_single_product/<string:product_name>')
+def get_single_product(product_name):
     try:
         data = {}
 
-        filter_pro = Products.query.filter(Products.id == id).first()
+        filter_pro = Products.query.filter(Products.product_name == product_name).first()
 
         if filter_pro:
             for column in filter_pro.__table__.columns:
