@@ -10,7 +10,7 @@ class Customers(db.Model):
     customer_name = db.Column(db.Text)
     customer_place = db.Column(db.Text)
     mobile_no = db.Column(db.Integer)
-    discount = db.Column(db.Text)
+    discount_percentage = db.Column(db.Integer)
     gst_no = db.Column(db.Text)
     date_time_added = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -34,7 +34,7 @@ class Invoices(db.Model):
     customer_place = db.Column(db.Text)
     invoice_date  = db.Column(db.DateTime)
     invoice_parcel_details = db.Column(db.Text)
-    invoice_product_details = db.Column(JSONB)
+    invoice_product_details = db.Column(db.Text)
     sub_total_amount = db.Column(db.Text)
     final_bill_amount = db.Column(db.Text)
     date_time_added = db.Column(db.DateTime, default=datetime.utcnow)

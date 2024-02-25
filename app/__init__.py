@@ -12,10 +12,12 @@ from logging.handlers import  RotatingFileHandler
 
 app = Flask(__name__,static_folder='static',template_folder='templates')
 
-basedir = os.path.abspath(os.path.dirname(__file__))
+CWD = os.getcwd()
 
-app.config['SECRET_KEY'] = 'Hiren'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI','sqlite:///' + os.path.join(basedir, 'flask_app.db'))
+app.config['SECRET_KEY'] = 'chetna_plastic'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(os.getcwd(), 'chetna_plastic.db')
+print(os.getenv('SQLALCHEMY_DATABASE_URI'))
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI',os.path.join(os.getcwd(), 'chetna_plastic.db'))
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 

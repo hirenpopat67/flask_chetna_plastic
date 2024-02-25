@@ -43,6 +43,7 @@ function fetch_customer_details_by_name() {
                     $("#customer_place").val(data["customer_place"]);
                     $("#customer_mobile_no").val(data["mobile_no"]);
                     $("#customer_gst_no").val(data["gst_no"]);
+                    $("#discount_percentage").val(data["discount_percentage"]);
                 });
         } else {
             // Handle the case when the customer name is none or empty
@@ -51,6 +52,7 @@ function fetch_customer_details_by_name() {
             $("#customer_place").val("");
             $("#customer_mobile_no").val("");
             $("#customer_gst_no").val("");
+            $("#discount_percentage").val("");
         }
     });
 }
