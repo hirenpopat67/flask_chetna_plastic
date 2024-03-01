@@ -29,7 +29,7 @@ class Invoices(db.Model):
     __tablename__ = "invoices"
 
     id = db.Column(db.Integer, primary_key=True)
-    invoice_no = db.Column(db.Integer)
+    invoice_no = db.Column(db.Integer,unique=True)
     customer_name = db.Column(db.Text)
     customer_place = db.Column(db.Text)
     invoice_date  = db.Column(db.DateTime)

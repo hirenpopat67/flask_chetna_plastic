@@ -1,6 +1,8 @@
 from flask import Blueprint,render_template,redirect,current_app,request,flash
 from app.models.models import Invoices,Customers,Products
 from datetime import datetime
+from app import db
+import json
 
 create_invoice_blueprint = Blueprint('create_invoice_blueprint', __name__)
 
@@ -32,28 +34,55 @@ def create_invoice():
     }
         
         if request.method == 'POST':
-            print("request:- ",request)
-            invoice_data = request.form.to_dict()
+            invoice_data = request.get_json()
             customer_name = invoice_data.setdefault('customer_name')
-            customer_mobile_no = invoice_data.setdefault('customer_mobile_no')
             customer_place = invoice_data.setdefault('customer_place')
-            customer_gst_no = invoice_data.setdefault('customer_gst_no')
-            parcel_details = invoice_data.setdefault('parcel_details')
-            total_parcel = invoice_data.setdefault('total_parcel')
-            total_parcel = invoice_data.setdefault('total_parcel')
             invoice_number = invoice_data.setdefault('invoice_number')
             invoice_date = invoice_data.setdefault('invoice_date')
+            sub_total_amount = invoice_data.setdefault('sub_total_amount')
+            discount_percentage = invoice_data.setdefault('discount_percentage')
+            discount_amount = invoice_data.setdefault('discount_amount')
+            total_amount = invoice_data.setdefault('total_amount')
+            gst_amount = invoice_data.setdefault('gst_amount')
+            final_amount = invoice_data.setdefault('final_amount')
 
             if not invoice_number:
                 fetch_invoice_no = Invoices.query.order_by(Invoices.invoice_no.desc()).first()
 
                 if fetch_invoice_no:
-                    invoice_number = invoice_number.invoice_no
+                    invoice_number = fetch_invoice_no.invoice_no + 1
                 else:
                     invoice_number = 1
+            
+            if invoice_date:
 
-            format_invoice_date = datetime.strptime(invoice_date, '%Y-%m-%d')
-            # print("invoice_data:- ",invoice_data)
+                format_invoice_date = datetime.strptime(invoice_date, '%Y-%m-%d')
+            else:
+                format_invoice_date = None
+            
+            add_new_invoice_data = Invoices(
+                invoice_no = invoice_number,
+                customer_name = customer_name,
+                customer_place = customer_place,
+                invoice_date = format_invoice_date,
+                invoice_product_details = json.dumps(invoice_data),
+                sub_total_amount = sub_total_amount,
+                discount_percentage = discount_percentage,
+                discount_amount = discount_amount,
+                total_amount = total_amount,
+                gst_amount = gst_amount,
+                final_bill_amount = final_amount,
+            )
+
+            db.session.add(add_new_invoice_data)
+
+            try:
+                db.session.commit()
+                flash("Invoice successfully added",'success')
+                print("request:- ",invoice_data)
+            except Exception as e:
+                flash(e,'danger')
+                return redirect('500.html'), 500
 
             
         
