@@ -15,11 +15,11 @@ Add Invoice
 <div class="container">
   <center><h2>Customer Details</h2></center>
   <br>
-    <form class="row g-3">
+    <form class="row g-3" method="POST" action="/create_invoice">
           
           <div class="col-md-6 form-floating">
             
-            <input type="text" class="form-control" id="customer_name" placeholder="Customer Name" list="customer_names">
+            <input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Customer Name" list="customer_names"required>
             <label for="floatingPassword">Customer Name</label>
           </div>
 
@@ -31,35 +31,35 @@ Add Invoice
         </datalist>
 
           <div class="col-md-6 form-floating">
-            <input type="number" class="form-control" id="customer_mobile_no" placeholder="Customer Mobile Number" disabled>
+            <input type="number" class="form-control" name="customer_mobile_no" id="customer_mobile_no" placeholder="Customer Mobile Number" readonly>
             <label for="floatingPassword">Customer Mobile Number</label>
           </div>
   
           <div class="col-md-6 form-floating">
-            <input type="text" class="form-control" id="customer_place" placeholder="Customer Place" disabled>
+            <input type="text" class="form-control" name="customer_place" id="customer_place" placeholder="Customer Place" readonly>
             <label for="floatingPassword">Customer Place</label>
           </div>
 
           <div class="col-md-6 form-floating">
-            <input type="text" class="form-control" id="customer_gst_no" placeholder="Customer GST Number" disabled>
+            <input type="text" class="form-control" name="customer_gst_no" id="customer_gst_no" placeholder="Customer GST Number" readonly>
             <label for="floatingPassword">Customer GST Number</label>
         </div>
 
         <div class="col-md-3 form-floating">
-            <input type="text" class="form-control" id="" placeholder="Parcel Details">
+            <input type="text" class="form-control" name="parcel_details" id="" placeholder="Parcel Details">
             <label for="floatingPassword">Parcel Details</label>
         </div>
         <div class="col-md-3 form-floating">
-            <input type="number" class="form-control" id="" placeholder="Total Parcel">
+            <input type="number" class="form-control" name="total_parcel" id="" placeholder="Total Parcel">
             <label for="floatingPassword">Total Parcel</label>
             </div>
 
           <div class="col-md-3 form-floating">
-            <input type="number" class="form-control" value="{{context.fetch_last_invoice_no}}" id="" placeholder="Invoice Number">
+            <input type="number" class="form-control" name="invoice_number" value="{{context.fetch_last_invoice_no}}" id="" placeholder="Invoice Number">
             <label for="floatingPassword">Invoice Number</label>
             </div>
             <div class="col-md-3 form-floating">
-                <input type="date" class="form-control" value="{{context.today_invoice_date}}" id="" placeholder="Date">
+                <input type="date" class="form-control" name="invoice_date" value="{{context.today_invoice_date}}" id="" placeholder="Date">
                 <label for="floatingPassword">Date</label>
             </div>
             
@@ -84,7 +84,7 @@ Add Invoice
               <td><input type="text" style="width: fit-content" name="product_name" class="form-control border-secondary" list="product_list" required></td>
               <td><input type="number" style="width: fit-content" name="qty" class="form-control border-secondary"></td>
               <td><input type="number" style="width: fit-content" name="product_price" class="form-control border-secondary"></td>
-              <td><input type="number" style="width: fit-content" name="total_price_amount" class="form-control border-secondary" disabled></td>
+              <td><input type="number" style="width: fit-content" name="total_price_amount" class="form-control border-secondary" readonly></td>
             </tr>
             </tbody>
 
@@ -100,7 +100,7 @@ Add Invoice
             </tr>
             <tr>
               <td colspan="4" class="text-right"><strong>SUB TOTAL (₹)</strong></td>
-              <td><input type="number" style="width: fit-content" id="sub_total_amount" name="sub_total_amount" class="form-control border-secondary" disabled></td>
+              <td><input type="number" style="width: fit-content" id="sub_total_amount" name="sub_total_amount" class="form-control border-secondary" readonly></td>
             </tr>
             <tr>
               <td colspan="4" class="text-right"><strong>DISCOUNT (%)</strong></td>
@@ -108,24 +108,33 @@ Add Invoice
             </tr>
               <tr>
                 <td colspan="4" class="text-right"><strong>	DISCOUNT (₹)</strong></td>
-                <td><input type="number" style="width: fit-content" id="discount_amount" name="discount_amount" class="form-control border-secondary" disabled></td>
+                <td><input type="number" style="width: fit-content" id="discount_amount" name="discount_amount" class="form-control border-secondary" readonly></td>
               </tr>
               <tr>
                 <td colspan="4" class="text-right"><strong>TOTAL (₹)</strong></td>
-                <td><input type="number" style="width: fit-content" id="total_amount" name="total_amount" class="form-control border-secondary" disabled></td>
+                <td><input type="number" style="width: fit-content" id="total_amount" name="total_amount" class="form-control border-secondary" readonly></td>
               </tr>
               <tr>
                 <td colspan="4" class="text-right"><strong>GST (₹)</strong></td>
-                <td><input type="number" style="width: fit-content" id="gst_amount" name="gst_amount" class="form-control border-secondary" disabled></td>
+                <td><input type="number" style="width: fit-content" id="gst_amount" name="gst_amount" class="form-control border-secondary" readonly></td>
               </tr>
               <tr>
                 <td colspan="4" class="text-right"><strong>	FINAL BILL (₹)</strong></td>
-                <td><input type="number" style="width: fit-content" id="final_amount" name="final_amount" class="form-control border-secondary" disabled></td>
+                <td><input type="number" style="width: fit-content" id="final_amount" name="final_amount" class="form-control border-secondary" readonly></td>
               </tr>
-          </table>
-        </div>
+
+            </table>
+          </div>
+          
+          <button type="submit" class="btn btn-success">Save</button>
+            <button type="button" class="btn btn-primary">Save And Print</button>
+
 
         </div>
+        
+      </table>
+
+
         
       </form>
 </div>
