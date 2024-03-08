@@ -6,6 +6,8 @@ Add Invoice
 
 {% block body %}
 
+
+
 <div class="container">
 <h1>Create Invoice</h1>
 </div>
@@ -20,7 +22,14 @@ Add Invoice
           <div class="col-md-6 form-floating">
             
             <input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Customer Name" list="customer_names"required>
-            <label for="floatingPassword">Customer Name</label>
+
+                  <!-- <select name="select_box" class="form-select" name="customer_name"  id="customer_name" >
+                    <option value=""></option>
+                    {% for x in context.all_customers %}
+                    <option value="{{x.customer_name}}" data-subtext="{{x.customer_place}}">{{x.customer_name}}</option>
+                    {% endfor %}
+                  </select> -->
+                  <label for="floatingPassword">Customer Name</label>
           </div>
 
           <datalist id="customer_names">
@@ -126,7 +135,7 @@ Add Invoice
             </table>
           </div>
           
-          <button type="button" id="save" class="btn btn-success">Save</button>
+          <button type="submit" id="save" class="btn btn-success">Save</button>
             <button type="button" class="btn btn-primary">Save And Print</button>
 
 
@@ -138,6 +147,17 @@ Add Invoice
         
       </form>
 </div>
+
+<!-- <script>
+
+  var select_box_element = document.querySelector('#customer_name');
+
+  dselect(select_box_element, {
+      search: true
+  });
+
+</script> -->
+
 
 <script src="../static/js/create_invoice.js"></script>
 

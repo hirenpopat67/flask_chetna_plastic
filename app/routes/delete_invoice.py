@@ -18,7 +18,7 @@ def delete_invoice():
                 db.session.delete(delete_inv)
                 db.session.commit()
 
-                flash('Invoice successfully deleted','success')
+                flash('Invoice successfully deleted','error')
                 return redirect(url_for('all_invoices_blueprint.all_invoices'))
             
         flash('Please provide apprpriate Invoice','warning')

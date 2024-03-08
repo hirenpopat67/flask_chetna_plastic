@@ -32,7 +32,7 @@ class Invoices(db.Model):
     invoice_no = db.Column(db.Integer,unique=True)
     customer_name = db.Column(db.Text)
     customer_place = db.Column(db.Text)
-    invoice_date  = db.Column(db.DateTime)
+    invoice_date  = db.Column(db.Text)
     invoice_product_details = db.Column(db.Text)
     sub_total_amount = db.Column(db.Text)
     discount_percentage = db.Column(db.Text)

@@ -1,6 +1,6 @@
-from flask import Blueprint,render_template,redirect,current_app,request,flash
+from flask import Blueprint,render_template,redirect,current_app,request,flash,url_for
 from app.models.models import Invoices,Customers,Products
-from datetime import datetime
+from datetime import datetime,date
 from app import db
 import json
 
@@ -34,7 +34,7 @@ def create_invoice():
     }
         
         if request.method == 'POST':
-            invoice_data = request.get_json()
+            invoice_data = request.form.to_dict()
             customer_name = invoice_data.setdefault('customer_name')
             customer_place = invoice_data.setdefault('customer_place')
             invoice_number = invoice_data.setdefault('invoice_number')
@@ -55,16 +55,20 @@ def create_invoice():
                     invoice_number = 1
             
             if invoice_date:
+                print(invoice_date)
 
-                format_invoice_date = datetime.strptime(invoice_date, '%Y-%m-%d')
+                invoice_date_obj = datetime.strptime(invoice_date, '%Y-%m-%d')
+                formatted_invoice_date = invoice_date_obj.strftime('%d-%m-%Y')
+
             else:
-                format_invoice_date = None
+                formatted_invoice_date = date.today().strftime('%d-%m-%Y')
+            
             
             add_new_invoice_data = Invoices(
                 invoice_no = invoice_number,
                 customer_name = customer_name,
                 customer_place = customer_place,
-                invoice_date = format_invoice_date,
+                invoice_date = formatted_invoice_date,
                 invoice_product_details = json.dumps(invoice_data),
                 sub_total_amount = sub_total_amount,
                 discount_percentage = discount_percentage,
@@ -79,7 +83,7 @@ def create_invoice():
             try:
                 db.session.commit()
                 flash("Invoice successfully added",'success')
-                print("request:- ",invoice_data)
+                return redirect('/create_invoice')
             except Exception as e:
                 flash(e,'danger')
                 return redirect('500.html'), 500
