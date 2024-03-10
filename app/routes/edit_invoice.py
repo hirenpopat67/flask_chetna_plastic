@@ -1,5 +1,5 @@
 from flask import Blueprint,render_template,redirect,current_app,request,flash
-from app.models.models import Invoices
+from app.models.models import Invoices,Customers,Products
 import json
 
 edit_invoice_blueprint = Blueprint('edit_invoice_blueprint', __name__)
@@ -23,8 +23,20 @@ def edit_invoice(id):
                 data[column.name] = column_value
             
             data['invoice_json'] = json.loads(fi.invoice_json)
+
+        all_customers = Customers.query.order_by(Customers.customer_name).all()
+
+        all_products = Products.query.order_by(Products.product_name).all()
+
+        context = {
+
+        'data': data,
+        'all_customers': all_customers,
+        'all_products': all_products,
+
+    }
         
-        return render_template('edit_invoice.html',data=data)
+        return render_template('edit_invoice.html',context=context)
 
     except Exception as e:
         current_app.logger.error(f"{str(e)} WHICH_API = {request.path}", exc_info=True)

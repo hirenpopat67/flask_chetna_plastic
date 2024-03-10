@@ -21,7 +21,7 @@ Edit Invoice
           
           <div class="col-md-6 form-floating">
             
-            <input type="text" class="form-control" value="{{data.customer_name}}" name="customer_name" id="customer_name" placeholder="Customer Name" list="customer_names"required>
+            <input type="text" class="form-control" value="{{context.data.customer_name}}" name="customer_name" id="customer_name" placeholder="Customer Name" list="customer_names"required>
 
                   <!-- <select name="select_box" class="form-select" name="customer_name"  id="customer_name" >
                     <option value=""></option>
@@ -40,35 +40,35 @@ Edit Invoice
         </datalist>
 
           <div class="col-md-6 form-floating">
-            <input type="number" class="form-control" name="customer_mobile_no" id="customer_mobile_no" placeholder="Customer Mobile Number" readonly>
+            <input type="number" class="form-control" value="{{context.data.invoice_json['customer_mobile_no']}}" name="customer_mobile_no" id="customer_mobile_no" placeholder="Customer Mobile Number" readonly>
             <label for="floatingPassword">Customer Mobile Number</label>
           </div>
   
           <div class="col-md-6 form-floating">
-            <input type="text" class="form-control" name="customer_place" id="customer_place" placeholder="Customer Place" readonly>
+            <input type="text" class="form-control" value="{{context.data.customer_place}}" name="customer_place" id="customer_place" placeholder="Customer Place" readonly>
             <label for="floatingPassword">Customer Place</label>
           </div>
 
           <div class="col-md-6 form-floating">
-            <input type="text" class="form-control" name="customer_gst_no" id="customer_gst_no" placeholder="Customer GST Number" readonly>
+            <input type="text" class="form-control" value="{{context.data.invoice_json['customer_gst_no']}}" name="customer_gst_no" id="customer_gst_no" placeholder="Customer GST Number" readonly>
             <label for="floatingPassword">Customer GST Number</label>
         </div>
 
         <div class="col-md-3 form-floating">
-            <input type="text" class="form-control" name="parcel_details" id="" placeholder="Parcel Details" oninput="convertToUpperCase(this)">
+            <input type="text" class="form-control" value="{{context.data.invoice_json['parcel_details']}}" name="parcel_details" id="" placeholder="Parcel Details" oninput="convertToUpperCase(this)">
             <label for="floatingPassword">Parcel Details</label>
         </div>
         <div class="col-md-3 form-floating">
-            <input type="text" class="form-control" name="note" id="" placeholder="Note">
+            <input type="text" value="{{context.data.invoice_json['note']}}" class="form-control" name="note" id="" placeholder="Note">
             <label for="floatingPassword">Note</label>
             </div>
 
           <div class="col-md-3 form-floating">
-            <input type="number" class="form-control" name="invoice_number" value="{{context.default_invoice_number}}" id="" placeholder="Invoice Number">
+            <input type="number" class="form-control" name="invoice_number" value="{{context.data.invoice_no}}" id="" placeholder="Invoice Number">
             <label for="floatingPassword">Invoice Number</label>
             </div>
             <div class="col-md-3 form-floating">
-                <input type="date" class="form-control" name="invoice_date" value="{{context.default_invoice_date}}" id="" placeholder="Date">
+                <input type="date" class="form-control" name="invoice_date" value="{{context.data.invoice_date}}" id="" placeholder="Date">
                 <label for="floatingPassword">Date</label>
             </div>
             
@@ -88,13 +88,15 @@ Edit Invoice
             </thead>
             <tbody id="invoice-form-items-table-body">
             <tr>
+              {% for item_dict in context.data.invoice_json['items'] %}
               <td><button type="button" class="btn btn-primary remove_row">-</button></td>
               <!-- <td>1</td> -->
-              <td><input type="text" style="width: fit-content" name="product_name" class="form-control border-secondary" list="product_list" required></td>
-              <td><input type="number" style="width: fit-content" name="qty" class="form-control border-secondary"></td>
-              <td><input type="number" style="width: fit-content" name="product_price" class="form-control border-secondary"></td>
-              <td><input type="number" style="width: fit-content" name="total_price_amount" class="form-control border-secondary" readonly></td>
+              <td><input type="text" value="{{item_dict['product_name']}}" style="width: fit-content" name="product_name" class="form-control border-secondary" list="product_list" required></td>
+              <td><input type="number" value="{{item_dict['qty']}}" style="width: fit-content" name="qty" class="form-control border-secondary"></td>
+              <td><input type="number" value="{{item_dict['product_price']}}" style="width: fit-content" name="product_price" class="form-control border-secondary"></td>
+              <td><input type="number" value="{{item_dict['total_price_amount']}}" style="width: fit-content" name="total_price_amount" class="form-control border-secondary" readonly></td>
             </tr>
+            {% endfor %}
             </tbody>
 
             <datalist id="product_list">
@@ -109,34 +111,35 @@ Edit Invoice
             </tr>
             <tr>
               <td colspan="4" class="text-right"><strong>SUB TOTAL (₹)</strong></td>
-              <td><input type="number" style="width: fit-content" id="sub_total_amount" name="sub_total_amount" class="form-control border-secondary" readonly></td>
+              <td><input type="number"  value="{{context.data.invoice_json['sub_total_amount']}}" style="width: fit-content" id="sub_total_amount" name="sub_total_amount" class="form-control border-secondary" readonly></td>
             </tr>
             <tr>
               <td colspan="4" class="text-right"><strong>DISCOUNT (%)</strong></td>
-              <td><input type="text" style="width: fit-content" id="discount_percentage" name="discount_percentage" class="form-control border-secondary"></td>
+              <td><input type="text"  value="{{context.data.invoice_json['discount_percentage']}}" style="width: fit-content" id="discount_percentage" name="discount_percentage" class="form-control border-secondary"></td>
             </tr>
               <tr>
                 <td colspan="4" class="text-right"><strong>	DISCOUNT (₹)</strong></td>
-                <td><input type="number" style="width: fit-content" id="discount_amount" name="discount_amount" class="form-control border-secondary" readonly></td>
+                <td><input type="number"  value="{{context.data.invoice_json['discount_amount']}}" style="width: fit-content" id="discount_amount" name="discount_amount" class="form-control border-secondary" readonly></td>
               </tr>
               <tr>
                 <td colspan="4" class="text-right"><strong>TOTAL (₹)</strong></td>
-                <td><input type="number" style="width: fit-content" id="total_amount" name="total_amount" class="form-control border-secondary" readonly></td>
+                <td><input type="number"  value="{{context.data.invoice_json['total_amount']}}" style="width: fit-content" id="total_amount" name="total_amount" class="form-control border-secondary" readonly></td>
               </tr>
               <tr>
                 <td colspan="4" class="text-right"><strong>GST (₹)</strong></td>
-                <td><input type="number" style="width: fit-content" id="gst_amount" name="gst_amount" class="form-control border-secondary" readonly></td>
+                <td><input type="number"  value="{{context.data.invoice_json['gst_amount']}}" style="width: fit-content" id="gst_amount" name="gst_amount" class="form-control border-secondary" readonly></td>
               </tr>
               <tr>
                 <td colspan="4" class="text-right"><strong>	FINAL BILL (₹)</strong></td>
-                <td><input type="number" style="width: fit-content" id="final_amount" name="final_amount" class="form-control border-secondary" readonly></td>
+                <td><input type="number"  value="{{context.data.invoice_json['final_amount']}}" style="width: fit-content" id="final_amount" name="final_amount" class="form-control border-secondary" readonly></td>
               </tr>
 
             </table>
           </div>
           
-          <button type="submit" id="save" class="btn btn-success">Save</button>
-            <button type="button" class="btn btn-primary">Save And Print</button>
+          <a href="/all_invoices"><button type="button" id="cancel" class="btn btn-secondary">Cancel</button></a>
+          <button type="submit" id="save" class="btn btn-success">Update</button>
+            <button type="button" class="btn btn-primary">Update And Print</button>
 
 
         </div>
