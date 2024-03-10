@@ -195,10 +195,15 @@ $(document).ready(function() {
 
     // Initialize remove product row
     remove_product_row();
+    
+    // Initialize 
+    convertToUpperCase();
 
 })
 
-
+function convertToUpperCase(input) {
+    input.value = input.value.toUpperCase();
+}
 // document.getElementById('save').addEventListener('click', function() {
 //   // Get form data for array of objects
 //   const formData = {

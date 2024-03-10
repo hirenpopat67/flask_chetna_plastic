@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Add Invoice
+Edit Invoice
 {% endblock title %}
 
 {% block body %}
@@ -9,7 +9,7 @@ Add Invoice
 
 
 <div class="container">
-<h1>Create Invoice</h1>
+<h1>Edit Invoice</h1>
 </div>
 
 <br>
@@ -17,11 +17,11 @@ Add Invoice
 <div class="container">
   <center><h2>Customer Details</h2></center>
   <br>
-    <form class="row g-3" method="POST" action="/create_invoice">
+    <form class="row g-3" method="POST" action="">
           
           <div class="col-md-6 form-floating">
             
-            <input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Customer Name" list="customer_names"required>
+            <input type="text" class="form-control" value="{{data.customer_name}}" name="customer_name" id="customer_name" placeholder="Customer Name" list="customer_names"required>
 
                   <!-- <select name="select_box" class="form-select" name="customer_name"  id="customer_name" >
                     <option value=""></option>

@@ -1,5 +1,6 @@
 from flask import Blueprint,render_template,redirect,current_app,request,flash
 from app.models.models import Invoices
+import json
 
 all_invoices_blueprint = Blueprint('all_invoices_blueprint', __name__)
 
@@ -20,8 +21,10 @@ def all_invoices():
                 if not column_value:
                     column_value = ''
 
+
                 new_data[column.name] = column_value
                 
+            new_data['invoice_json'] = json.loads((getattr(fai, 'invoice_json')))
 
             data.append(new_data)
         
