@@ -14,7 +14,7 @@ All Products
 
 
 <div class="table-responsive">
-    <table class="table">
+    <table class="table" id="product-table">
         <thead>
           <tr>
             <th scope="col">Sr No.</th>
@@ -75,6 +75,22 @@ All Products
         $('#exampleModal').modal("show");
       });
   });
+  
+</script>
+
+<script type="text/javascript">
+
+	$(document).ready( function () {
+		$('#product-table').DataTable({
+			"order": [],
+			"columnDefs": [ {
+				"targets": 2,
+				"sortable": false,
+				"searchable": false
+			} ],
+			"paging": true
+		});
+	});
 </script>
 
 {% endblock body %}
