@@ -1,14 +1,20 @@
 from flask import Blueprint,render_template,redirect,current_app,request,flash
 from app.models.models import Invoices,Customers,Products
 import json
+from app.routes.create_invoice import invoice_data_validator,invoice_data_processor
+from datetime import datetime
+from app import db
 
 edit_invoice_blueprint = Blueprint('edit_invoice_blueprint', __name__)
 
 
-@edit_invoice_blueprint.route('/edit_invoice/<int:id>')
-def edit_invoice(id):
+@edit_invoice_blueprint.route('/edit_invoice',methods=['GET','POST'])
+def edit_invoice():
     try:
         data = {}
+
+        id = request.args.get('id',None)
+
 
         fetch_invoice = Invoices.query.order_by(Invoices.id == id)
 
@@ -35,6 +41,41 @@ def edit_invoice(id):
         'all_products': all_products,
 
     }
+        
+        if request.method == 'POST':
+            invoice_data = request.form.to_dict(flat=False)
+            validation_error = invoice_data_validator(invoice_data)
+            if validation_error:
+                flash(validation_error,'error')
+                return redirect('/all_invoice')
+            
+            invoice_data_processed = invoice_data_processor(invoice_data)
+            
+             # save invoice
+            
+            invoice_data_processed_json = json.dumps(invoice_data_processed)
+
+            invoice_no = invoice_data['invoice_number'][0]
+
+            update_invoice_data = Invoices.query.filter(Invoices.invoice_no == invoice_no).first()
+
+            if update_invoice_data:
+
+                print("invoice_data:-",invoice_data)
+
+                update_invoice_data.customer_name = invoice_data['customer_name'][0]
+                update_invoice_data.customer_place = invoice_data['customer_place'][0]
+                update_invoice_data.invoice_date = datetime.strptime(invoice_data['invoice_date'][0], '%Y-%m-%d')
+                update_invoice_data.invoice_json = invoice_data_processed_json
+
+
+                try:
+                    db.session.commit()
+                    flash("Invoice successfully updated",'success')
+                    return redirect('all_invoices')
+                except Exception as e:
+                    flash(e,'danger')
+                    return redirect('500.html'), 500
         
         return render_template('edit_invoice.html',context=context)
 

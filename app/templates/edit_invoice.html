@@ -17,7 +17,7 @@ Edit Invoice
 <div class="container">
   <center><h2>Customer Details</h2></center>
   <br>
-    <form class="row g-3" method="POST" action="">
+    <form class="row g-3" method="POST" action="/edit_invoice">
           
           <div class="col-md-6 form-floating">
             
@@ -64,7 +64,7 @@ Edit Invoice
             </div>
 
           <div class="col-md-3 form-floating">
-            <input type="number" class="form-control" name="invoice_number" value="{{context.data.invoice_no}}" id="" placeholder="Invoice Number">
+            <input type="number" class="form-control" name="invoice_number" value="{{context.data.invoice_no}}" id="" placeholder="Invoice Number" readonly>
             <label for="floatingPassword">Invoice Number</label>
             </div>
             <div class="col-md-3 form-floating">
