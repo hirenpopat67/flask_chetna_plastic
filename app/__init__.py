@@ -7,6 +7,7 @@ load_dotenv()
 from importlib import import_module
 import logging
 from logging.handlers import  RotatingFileHandler
+from authlib.integrations.flask_client import OAuth
 
 
 
@@ -24,6 +25,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+oauth = OAuth(app)
 
 
 def register_blueprints(app):

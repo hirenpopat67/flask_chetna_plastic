@@ -35,3 +35,13 @@ class Invoices(db.Model):
     invoice_date  = db.Column(db.Date)
     invoice_json = db.Column(db.Text)
     date_time_added = db.Column(db.DateTime, default=datetime.now())
+
+class Users(db.Model):
+
+    __tablename__ = "users"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text)
+    email = db.Column(db.Text)
+    google_account_json = db.Column(db.Text)
+    created_at =  db.Column(db.DateTime, default=datetime.now())
