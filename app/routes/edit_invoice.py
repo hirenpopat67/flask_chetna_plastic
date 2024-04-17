@@ -4,11 +4,13 @@ import json
 from app.routes.create_invoice import invoice_data_validator,invoice_data_processor
 from datetime import datetime
 from app import db
+from flask_login import login_required
 
 edit_invoice_blueprint = Blueprint('edit_invoice_blueprint', __name__)
 
 
 @edit_invoice_blueprint.route('/edit_invoice',methods=['GET','POST'])
+@login_required
 def edit_invoice():
     try:
         data = {}

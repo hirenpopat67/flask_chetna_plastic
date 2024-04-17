@@ -3,11 +3,13 @@ from app.models.models import Invoices,Customers,Products
 from datetime import datetime,date
 from app import db
 import json
+from flask_login import login_required
 
 create_invoice_blueprint = Blueprint('create_invoice_blueprint', __name__)
 
 
 @create_invoice_blueprint.route('/create_invoice',methods = ['GET','POST'])
+@login_required
 def create_invoice():
     try:
 

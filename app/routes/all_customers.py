@@ -1,10 +1,12 @@
 from flask import Blueprint,render_template,redirect,current_app,request,flash
 from app.models.models import Customers
+from flask_login import login_required
 
 all_customers_blueprint = Blueprint('all_customers_blueprint', __name__)
 
 
 @all_customers_blueprint.route('/all_customers')
+@login_required
 def all_customers():
     try:
         data = []

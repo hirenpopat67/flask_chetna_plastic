@@ -1,11 +1,13 @@
 from flask import Blueprint,render_template,redirect,current_app,request,flash
 from app.models.models import Invoices
 import json
+from flask_login import login_required
 
 all_invoices_blueprint = Blueprint('all_invoices_blueprint', __name__)
 
 
 @all_invoices_blueprint.route('/all_invoices')
+@login_required
 def all_invoices():
     try:
         data = []

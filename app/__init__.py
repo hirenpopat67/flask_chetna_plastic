@@ -8,6 +8,7 @@ from importlib import import_module
 import logging
 from logging.handlers import  RotatingFileHandler
 from authlib.integrations.flask_client import OAuth
+from flask_login import LoginManager
 
 
 
@@ -17,7 +18,6 @@ CWD = os.getcwd()
 
 app.config['SECRET_KEY'] = 'chetna_plastic'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(os.getcwd(), 'chetna_plastic.db')
-print(os.getenv('SQLALCHEMY_DATABASE_URI'))
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI',os.path.join(os.getcwd(), 'chetna_plastic.db'))
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -26,6 +26,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 oauth = OAuth(app)
+login_manager = LoginManager(app)
+login_manager.login_view = 'login_blueprint.login'
 
 
 def register_blueprints(app):

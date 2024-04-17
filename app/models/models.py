@@ -1,6 +1,7 @@
 from app import db
 from datetime import datetime
 from sqlalchemy.dialects.postgresql import JSONB
+from flask_login import UserMixin
 
 class Customers(db.Model):
 
@@ -36,7 +37,7 @@ class Invoices(db.Model):
     invoice_json = db.Column(db.Text)
     date_time_added = db.Column(db.DateTime, default=datetime.now())
 
-class Users(db.Model):
+class Users(UserMixin,db.Model):
 
     __tablename__ = "users"
 
@@ -44,4 +45,4 @@ class Users(db.Model):
     name = db.Column(db.Text)
     email = db.Column(db.Text)
     google_account_json = db.Column(db.Text)
-    created_at =  db.Column(db.DateTime, default=datetime.now())
+    last_logged_in =  db.Column(db.DateTime, default=datetime.now,onupdate=datetime.now)

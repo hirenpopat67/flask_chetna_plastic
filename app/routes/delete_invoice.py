@@ -1,11 +1,13 @@
 from flask import Blueprint,render_template,redirect,current_app,request,flash,url_for
 from app.models.models import Invoices
 from app import db
+from flask_login import login_required
 
 delete_invoice_blueprint = Blueprint('delete_invoice_blueprint', __name__)
 
 
 @delete_invoice_blueprint.route('/delete_invoice',methods=['POST'])
+@login_required
 def delete_invoice():
     try:
 

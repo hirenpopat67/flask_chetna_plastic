@@ -1,10 +1,12 @@
 from flask import Blueprint,render_template,redirect,current_app,request,flash,jsonify
 from app.models.models import Customers
+from flask_login import login_required
 
 get_single_customer_blueprint = Blueprint('get_single_customer_blueprint', __name__)
 
 
 @get_single_customer_blueprint.route('/get_single_customer/<string:customer_name>')
+@login_required
 def get_single_customer(customer_name):
     try:
         data = {}

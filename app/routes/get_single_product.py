@@ -1,10 +1,12 @@
 from flask import Blueprint,render_template,redirect,current_app,request,flash,jsonify
 from app.models.models import Products
+from flask_login import login_required
 
 get_single_product_blueprint = Blueprint('get_single_product_blueprint', __name__)
 
 
 @get_single_product_blueprint.route('/get_single_product/<string:product_name>')
+@login_required
 def get_single_product(product_name):
     try:
         data = {}

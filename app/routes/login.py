@@ -1,10 +1,11 @@
 from flask import Blueprint,render_template,redirect,current_app,request,flash,url_for,session
-from app import oauth
+from app import oauth,login_manager,db
 import os
 from dotenv import load_dotenv
 load_dotenv()
 from authlib.common.security import generate_token
 from app.models.models import Users
+from flask_login import login_user,current_user
 
 login_blueprint = Blueprint('login_blueprint', __name__)
 
@@ -60,9 +61,24 @@ def google_auth():
             flash('You are not authorize user','error')
             return redirect('/')
         else:
-            flash('You were login successfully','success')
+            name = google_account_json.get('name',None)
+            check_user.name = name
+            check_user.google_account_json = str(google_account_json)
+            db.session.commit()
+
+            login_user(check_user)
+            flash('LOGIN SUCCESSFUL','success')
             return redirect('/all_invoices')
     else:
         flash('Something went wrong','error')
         return redirect('/')
 
+@login_manager.user_loader
+def load_user(user_id):
+    # since the user_id is just the primary key of our user table, use it in the query for the user
+    return Users.query.get(int(user_id))
+
+
+@login_blueprint.app_context_processor
+def inject_user():
+    return {'current_user': current_user}

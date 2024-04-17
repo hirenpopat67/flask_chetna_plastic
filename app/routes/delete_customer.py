@@ -1,11 +1,13 @@
 from flask import Blueprint,render_template,redirect,current_app,request,flash,url_for
 from app.models.models import Customers
 from app import db
+from flask_login import login_required
 
 delete_customer_blueprint = Blueprint('delete_customer_blueprint', __name__)
 
 
 @delete_customer_blueprint.route('/delete_customer',methods=['POST'])
+@login_required
 def delete_customer():
     try:
         id = request.form.get('delete_customer_id')
