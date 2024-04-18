@@ -10,6 +10,7 @@ def logout():
     try:
 
         logout_user()
+        flash('LOGOUT SUCCESSFUL','success')
 
         return render_template('login.html')
 
