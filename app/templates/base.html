@@ -46,24 +46,19 @@
               </li>
               
               {% if current_user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">{{current_user.name}}</a>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <strong>{{current_user.name}}</strong>
+                </a>
+                <ul class="dropdown-menu">
+                  <li id="logout_btn"><a class="dropdown-item" href="#">Logout</a></li>
+                </ul>
               </li>
               {% endif %}
               
-              <!-- <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Invoices
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="/create_invoice">Add Invoice</a></li>
-                  <li><a class="dropdown-item" href="#">Invoice Operations</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="/all_invoices">All Invoices</a></li>
-                </ul>
-              </li>
 
-              <li class="nav-item dropdown">
+              <!-- <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Customers
                 </a>
@@ -85,7 +80,7 @@
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="/all_products">All Products</a></li>
                 </ul>
-              </li> -->
+              </li>  -->
 
     
              
@@ -131,15 +126,36 @@
     {% endif %}
     {% endwith %}
 
-      <!-- {% with messages = get_flashed_messages(with_categories=true) %} {% if
-        messages %}
-        {% for category, message in messages %}
 
-      <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
-        <strong>{{message}}</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        {% endfor %} {% endif %} {% endwith %}
-      </div> -->
+    <!-- Modal -->
+<div class="modal fade" id="logout_confirm_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- Vertically centered modal -->
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>You want to log out</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a href="/logout"><button type="button" class="btn btn-danger">Logout</button></a>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  $(document).ready(function() {
+      $('#logout_btn').click(function() {
+        $('#logout_confirm_modal').modal("show");
+      });
+  });
+</script>
 
     {% block body %}
 
