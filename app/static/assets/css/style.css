@@ -213,17 +213,24 @@ table th{
 }
 
 .btn-print{
-    background: #3a3939;
+    /* background: #3a3939; */
+    /* background: #3a3939; */
+    background: #083a81;
 }
 
 .btn-print:after {
-    background: #1d1c1c;
+    /* background: #1d1c1c; */
+    /* background: #1d1c1c; */
+    background: #fbca0d;
 }
 
 /** Invoice 4 start **/
 .invoice-4 {
     padding: 30px 0;
     background: #fff6f6;
+   /* background: #fff6f6; */
+    /* background: #f1faee; */
+    background: #ffffe0;
 }
 
 .invoice-4 .mb-30{

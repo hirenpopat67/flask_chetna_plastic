@@ -58,59 +58,9 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="invoice-info"> -->
-                        <!-- <div class="row">
-                            <div class="col-sm-6 mb-30">
-                                <div class="invoice-number">
-                                    <h4 class="inv-title-1">CUSTOMER DETAILS</h4>
-                                        <table class="table-sm table-bordered border-dark">
-                                        <tr>
-                                            <td colspan="3" class="text-end">CUSTOMER NAME</td>
-                                            <td class="text-right"><strong>{{context.data.customer_name}}</strong></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="3" class="text-end">CUSTOMER PLACE</td>
-                                            <td class="text-right"><strong>{{context.data.customer_place}}</strong></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="3" class="text-end">CUSTOMER MOBILE NO.</td>
-                                            <td class="text-right"><strong>{{context.data.invoice_json['customer_mobile_no']}}</strong></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="3" class="text-end">CUSTOMER GST NO.</td>
-                                            <td class="text-right"><strong>{{context.data.invoice_json['customer_gst_no']}}</strong></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 mb-30">
-                                <div class="invoice-number text-end">
-                                    <h4 class="inv-title-1">PARCEL DETAILS</h4>
-                                       
-                                        <table class="table-sm table-bordered border-dark">
-                                            <tr>
-                                                <td class="text-end">CUSTOMER GST NO.</td>
-                                                <td class="text-right"><strong>{{context.data.invoice_json['customer_gst_no']}}</strong></td>
-                                            </tr>
-                                        </table>
-                                </div>
-                            </div>
-                        </div> -->
-                    <!-- </div> -->
+            
                     <br>
-                    <!-- <center><h4>CUSTOMER DETAILS</h4></center>
-                    <div class="order-summary">
-                        <table class="table table-responsive table-bordered border-dark">
-                            <tr>
-                                
-                                <td colspan="8">Customer Name</td>
-                                <td colspan="8"> <strong>{{context.data.customer_name}}</strong></td>
-                                <td colspan="8">Customer Place</td>
-                                <td colspan="8">Hello</td>
-                                </tr>
-                        </table>
-                    </div> -->
-                    
+            
 
                     <center><h4>CUSTOMER DETAILS</h4></center>
                     <div class="order-summary">
@@ -158,7 +108,9 @@
                                 </thead>
                                 <tbody>
                                   
-                                    {% for item_dict in context.data.invoice_json['items'] %}
+                                    {% for i in range(20) %}
+                                    {% if loop.index <= context.data.invoice_json['items'] | length %}
+                                    {% set item_dict = context.data.invoice_json['items'][loop.index - 1 ] %}
 
                                 <tr>
                                     <td class="text-center"><div class="item-desc-1">
@@ -173,6 +125,24 @@
                                     <td class="text-center">₹{{item_dict['product_price']}}</td>
                                     <td class="text-right">₹{{item_dict['total_price_amount']}}</td>
                                 </tr>
+
+
+                                {% else %}
+                                <tr>
+                                    <td class="text-center"><div class="item-desc-1">
+                                        <span>&nbsp;</span>
+                                    </div></td>
+                                    <td>
+                                        <div class="item-desc-1">
+                                            <span></span>
+                                        </div>
+                                    </td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-right"></td>
+                                </tr>
+
+                                {% endif %}
                                 {% endfor %}
                                   
                                
@@ -204,52 +174,18 @@
                             </table>
                         </div>
                     </div>
-                      <!-- <div class="invoice-informeshon">
-                          <div class="row">
-                              <div class="col-md-4 col-sm-4">
-                                  <div class="payment-info mb-30">
-                                      <h3 class="inv-title-1">Payment Info</h3>
-                                      <ul class="bank-transfer-list-1">
-                                          <li><strong>Account Name:</strong> 00 123 647 840</li>
-                                          <li><strong>Account Number:</strong> Jhon Doe</li>
-                                          <li><strong>Branch Name:</strong> xyz</li>
-                                      </ul>
-                                  </div>
-                              </div>
-                              <div class="col-md-4 col-sm-4">
-                                  <div class="terms-and-condistions mb-30">
-                                      <h3 class="inv-title-1">Terms and Condistions</h3>
-                                      <p class="mb-0">Once order done, money can't refund. Delivery might delay due to</p>
-                                  </div>
-                              </div>
-                              <div class="col-md-4 col-sm-4">
-                                  <div class="nates mb-30">
-                                      <h4 class="inv-title-1">Notes</h4>
-                                      <p class="text-muted">This is computer generated invoice and physical signature</p>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-
-                      <div class="invoice-contact clearfix">
-                          <div class="row g-0">
-                              <div class="col-lg-9 col-md-11 col-sm-12">
-                                  <div class="contact-info">
-                                      <a href="tel:+55-4XX-634-7071"><i class="fa fa-phone"></i> +00 123 647 840</a>
-                                      <a href="tel:info@themevessel.com"><i class="fa fa-envelope"></i> info@themevessel.com</a>
-                                      <a href="tel:info@themevessel.com" class="mr-0 d-none-580"><i class="fa fa-map-marker"></i> 169 Teroghoria, Bangladesh</a>
-                                  </div> -->
+                
                             </div>
                         </div>
                     </div>
 
                 </div>
                 <div class="invoice-btn-section clearfix d-print-none">
-                    <a href="javascript:window.print()" class="btn btn-lg btn-print">
+                    <a onClick="document.title = '{{context.data.customer_name}} ({{context.data.invoice_date}})';window.print();" id="print-invoice-btn" class="btn btn-lg btn-print">
                         <i class="fa fa-print"></i> Print Invoice
                     </a>
-                    <a id="invoice_download_btn" class="btn btn-lg btn-download btn-theme">
-                        <i class="fa fa-download"></i> Download Invoice
+                    <!-- <a id="invoice_download_btn" class="btn btn-lg btn-download btn-theme">
+                        <i class="fa fa-download"></i> Download Invoice -->
                     </a>
                 </div>
             </div>
