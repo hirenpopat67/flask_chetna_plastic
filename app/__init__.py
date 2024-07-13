@@ -10,15 +10,37 @@ from logging.handlers import  RotatingFileHandler
 from authlib.integrations.flask_client import OAuth
 from flask_login import LoginManager
 
+def create_env_file():
+    try:
+        file_name = ".env"
+        file_path = os.path.join(os.getcwd(), file_name)
 
+        if not os.path.exists(file_path):
+            print("Creating .env file...")
+            print(".env File Is Created...")
+            print("Please Update The .env File Variables Now... & Run the App")
+            with open(file_path, 'w') as f:
+                f.write(
+''' # Flask App Settings
+SECRET_KEY=
+SQLALCHEMY_DATABASE_URI=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+''')
+    
+    except Exception as e:
+        print("Some Error Occurred", e)
 
 app = Flask(__name__,static_folder='static',template_folder='templates')
-
+create_env_file()
 CWD = os.getcwd()
 
-app.config['SECRET_KEY'] = 'chetna_plastic'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(os.getcwd(), 'chetna_plastic.db')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI',os.path.join(os.getcwd(), 'chetna_plastic.db'))
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY','Flask_app_secret')
+SQLALCHEMY_DATABASE_URI=os.getenv('SQLALCHEMY_DATABASE_URI')
+if not SQLALCHEMY_DATABASE_URI and SQLALCHEMY_DATABASE_URI == '':
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///chetna_plastic.db'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
@@ -63,23 +85,3 @@ try:
     app.logger.info('ChetnaPlastic startup')
 except:
     app.logger.exception("Logging is Disabled!")
-
-
-
-def create_env_file():
-    try:
-        file_name = ".env"
-        file_path = os.path.join(os.getcwd(), file_name)
-
-        if not os.path.exists(file_path):
-            print("Creating .env file...")
-            print(".env File Is Created...")
-            print("Please Update The .env File Variables Now... & Run the App")
-            with open(file_path, 'w') as f:
-                f.write(
-''' # Flask App Settings
-
-''')
-    
-    except Exception as e:
-        print("Some Error Occurred", e)
