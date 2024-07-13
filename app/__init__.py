@@ -35,7 +35,7 @@ app = Flask(__name__,static_folder='static',template_folder='templates')
 create_env_file()
 CWD = os.getcwd()
 
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY','Flask_app_secret')
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY','Flask_app_secret........')
 SQLALCHEMY_DATABASE_URI=os.getenv('SQLALCHEMY_DATABASE_URI')
 if not SQLALCHEMY_DATABASE_URI or SQLALCHEMY_DATABASE_URI == '':
     SQLALCHEMY_DATABASE_URI = 'sqlite:///chetna_plastic.db'
