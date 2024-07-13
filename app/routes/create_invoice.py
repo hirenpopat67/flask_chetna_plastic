@@ -60,7 +60,7 @@ def create_invoice():
 
             try:
                 db.session.commit()
-                flash("Invoice successfully added",'success')
+                flash(f"{invoice_data['customer_name'][0]} Customer Invoice successfully added",'success')
                 return redirect('create_invoice')
             except Exception as e:
                 flash(e,'danger')

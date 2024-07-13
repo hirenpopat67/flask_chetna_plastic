@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Add Customer
+{% endblock title %}
+
+{% block body %}
+
+
+
+<div class="container">
+<h1>Add Customer</h1>
+</div>
+
+<br>
+
+<div class="container">
+  <center><h2>Customer Details</h2></center>
+  <br>
+    <form class="row g-3" method="POST" action="/create_customer">
+          
+          <div class="col-md-6 form-floating">
+            
+            <input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Customer Name" autocomplete="off" oninput="convertToUpperCase(this)" required>
+                  <label for="floatingPassword">Customer Name</label>
+          </div>
+
+          <div class="col-md-6 form-floating">
+            <input type="number" class="form-control" name="customer_mobile_no" id="customer_mobile_no" placeholder="Customer Mobile Number" min="10" autocomplete="off">
+            <label for="floatingPassword">Customer Mobile Number</label>
+          </div>
+  
+          <div class="col-md-6 form-floating">
+            <input type="text" class="form-control" name="customer_place" id="customer_place" placeholder="Customer Place" autocomplete="off" oninput="convertToUpperCase(this)" required>
+            <label for="floatingPassword">Customer Place</label>
+          </div>
+
+          <div class="col-md-6 form-floating">
+            <input type="text" class="form-control" name="customer_gst_no" id="customer_gst_no" placeholder="Customer GST Number" autocomplete="off">
+            <label for="floatingPassword">Customer GST Number</label>
+        </div>
+
+        <div class="col-md-12 form-floating">
+            <input type="number" class="form-control" name="customer_discount_percentage" autocomplete="off" placeholder="Customer Discount Percentage">
+            <label for="floatingPassword">Customer Discount Percentage</label>
+        </div>
+
+        
+        <button type="submit" id="save" class="btn btn-success">Save</button>
+    </div>
+        
+      </table>
+
+
+        
+      </form>
+</div>
+
+<!-- <script>
+
+  var select_box_element = document.querySelector('#customer_name');
+
+  dselect(select_box_element, {
+      search: true
+  });
+
+</script> -->
+
+
+<script src="../static/js/create_invoice.js"></script>
+
+{% endblock body %}

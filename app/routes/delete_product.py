@@ -19,7 +19,7 @@ def delete_product():
                 db.session.delete(delete_pro)
                 db.session.commit()
 
-                flash('Product successfully deleted','success')
+                flash(f'{delete_pro.product_name} Product successfully deleted','success')
                 return redirect(url_for('all_products_blueprint.all_products'))
             
         flash('Please provide apprpriate Product','warning')

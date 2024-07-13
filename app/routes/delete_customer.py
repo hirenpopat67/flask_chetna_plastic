@@ -19,7 +19,7 @@ def delete_customer():
                 db.session.delete(delete_cus)
                 db.session.commit()
 
-                flash('Customer successfully deleted','error')
+                flash(f'{delete_cus.customer_name} Customer successfully deleted','error')
                 return redirect(url_for('all_customers_blueprint.all_customers'))
             
         flash('Please provide apprpriate Customer','warning')

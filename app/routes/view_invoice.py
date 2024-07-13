@@ -1,4 +1,4 @@
-from flask import Blueprint,render_template,redirect,current_app,request,flash,jsonify
+from flask import Blueprint,render_template,redirect,current_app,request,flash,url_for
 from flask_login import login_required
 import pdfkit
 import platform
@@ -36,28 +36,31 @@ def view_invoice():
         id = request.args.get('id',None)
 
 
-        fetch_invoice = Invoices.query.order_by(Invoices.id == id)
+        fetch_invoice = Invoices.query.filter(Invoices.id == id).first()
 
-        for fi in fetch_invoice:
-            for column in fi.__table__.columns:
+        if fetch_invoice:
+        
+            for column in fetch_invoice.__table__.columns:
 
-                column_value = (getattr(fi, column.name))
+                column_value = (getattr(fetch_invoice, column.name))
 
                 if not column_value:
                     column_value = ''
 
                 data[column.name] = column_value
             
-            data['invoice_json'] = json.loads(fi.invoice_json)
-            invoice_date = fi.invoice_date
+            data['invoice_json'] = json.loads(fetch_invoice.invoice_json)
+            invoice_date = fetch_invoice.invoice_date
             data['invoice_date'] = f"{invoice_date.day}/{invoice_date.month}/{invoice_date.year}"
 
-        context = {
+            context = {
 
-        'data': data,
+            'data': data,
 
-    }
-        return render_template('view_invoice.html',context=context)
+            }
+            return render_template('view_invoice.html',context=context)
+        else:
+            return render_template("404.html")
 
     except Exception as e:
         current_app.logger.error(f"{str(e)} WHICH_API = {request.path}", exc_info=True)

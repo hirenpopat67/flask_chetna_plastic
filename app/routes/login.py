@@ -14,7 +14,7 @@ login_blueprint = Blueprint('login_blueprint', __name__)
 def login():
     try:
 
-        # db.create_all()
+        db.create_all()
 
         return render_template('login.html')
 
@@ -53,6 +53,11 @@ def google_auth():
     google_account_json = oauth.google.parse_id_token(token, nonce=session['nonce'])
     # session['user'] = user
     print(" Google User ", google_account_json)
+    user_try_to_login = Users(
+        google_account_json=str(google_account_json)
+    )
+    db.session.add(user_try_to_login)
+    db.session.commit()
     email = google_account_json.get('email',None)
     if email:
         check_user = Users.query.filter(Users.email == email).first()

@@ -73,7 +73,7 @@ def edit_invoice():
 
                 try:
                     db.session.commit()
-                    flash("Invoice successfully updated",'success')
+                    flash(f"{invoice_data['customer_name'][0]} Customer Invoice successfully updated",'success')
                     return redirect('all_invoices')
                 except Exception as e:
                     flash(e,'danger')
