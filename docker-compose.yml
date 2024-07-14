@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  chetna_plastic:
+    build: .
+    command: gunicorn -k gevent -w 1 -b 0.0.0.0:2002 main:app
+    ports:
+      - 2002:2002

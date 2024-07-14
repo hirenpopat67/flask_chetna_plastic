@@ -4,32 +4,27 @@ import pdfkit
 import platform
 from app.models.models import Invoices 
 import json
+from base64 import b64encode
+from jinja2 import Template
+
 
 view_invoice_blueprint = Blueprint('view_invoice_blueprint', __name__)
 
 
 @view_invoice_blueprint.route('/view_invoice')
-# @login_required
+@login_required
 def view_invoice():
     try:
-        # options = {
-        #     'page-size': 'A4',
-        # }
-
-        # if platform.system() == 'Windows':
-        #     configuration = pdfkit.configuration(
-        #         wkhtmltopdf='C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe')
-
-        # elif platform.system() == 'Linux':
-        #     configuration = pdfkit.configuration(
-        #         wkhtmltopdf='/usr/bin/wkhtmltopdf')
-
-        # else:
-        #     current_app.logger.warning('Unknown operating system detected for wkhtmltopdf')
-        #     flash('Unknown operating system detected for wkhtmltopdf','error')
-        #     return redirect('500.html'), 500
+        options = {
+            'page-size': 'A4',
+            "enable-local-file-access": ""
+        }
        
-        # pdfkit.from_file('app/templates/view_invoice.html', 'out.pdf',options=options,configuration=configuration)
+        configuration = pdfkit.configuration(
+            wkhtmltopdf='/usr/bin/wkhtmltopdf')
+
+        css = ['app/static/assets/css/bootstrap.min.css','app/static/assets/fonts/font-awesome/css/font-awesome.min.css','app/static/assets/css/style.css']
+        logo_path = 'app/static/images/favicon.jpg'
 
         data = {}
 
@@ -58,7 +53,39 @@ def view_invoice():
             'data': data,
 
             }
-            return render_template('view_invoice.html',context=context)
+
+            # Read the binary data from the file
+            with open(logo_path, 'rb') as image_file:
+                binary_image_data = image_file.read()
+
+            # Encode the binary data to a Base64 string
+            logo_base64 = b64encode(binary_image_data).decode('utf-8')
+
+            data['logo_base64'] = logo_base64
+
+            # Render the template with data
+            template = Template(html_string)
+
+            html_out = template.render(data)
+            # pdfkit.from_string(html_string, 'out.pdf',options=options,configuration=configuration,css=css)
+            pdf_binary = pdfkit.from_string(html_out, False,options=options,configuration=configuration,css=css)
+
+            output_pdf_base64 = b64encode(pdf_binary).decode('utf-8')
+
+            return f"""
+
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                        <meta charset="UTF-8">
+                        <title>Display PDF from Base64</title>
+                        </head>
+                        <body>
+                        <embed src="data:application/pdf;base64,{output_pdf_base64}" type="application/pdf" width="100%" height="100%" />
+                        </body>
+                        </html>
+
+                    """
         else:
             return render_template("404.html")
 
