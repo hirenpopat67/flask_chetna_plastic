@@ -1,7 +1,15 @@
 version: '3.8'
 services:
-  chetna_plastic:
+  chetnaplastic:
     build: .
     command: gunicorn -k gevent -w 1 -b 0.0.0.0:2002 main:app
     ports:
-      - 2002:2002
+      - 2002
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 80:80
+    depends_on:
+      - chetnaplastic
