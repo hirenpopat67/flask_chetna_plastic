@@ -12,7 +12,7 @@ view_invoice_blueprint = Blueprint('view_invoice_blueprint', __name__)
 
 
 @view_invoice_blueprint.route('/view_invoice')
-@login_required
+# @login_required
 def view_invoice():
     try:
         options = {
@@ -63,25 +63,56 @@ def view_invoice():
 
             data['logo_base64'] = logo_base64
 
+            # Step 1: Read the HTML string from the file
+            with open('app/templates/view_invoice.html', 'r') as file:
+                html_string = file.read()
+
             # Render the template with data
             template = Template(html_string)
 
             html_out = template.render(data)
             # pdfkit.from_string(html_string, 'out.pdf',options=options,configuration=configuration,css=css)
-            pdf_binary = pdfkit.from_string(html_out, False,options=options,configuration=configuration,css=css)
+            pdf_binary = pdfkit.from_string(html_out, False,options=options,configuration=configuration)
 
             output_pdf_base64 = b64encode(pdf_binary).decode('utf-8')
 
-            return f"""
+            style_element = """
 
+                            .iframe-container {
+                            overflow: hidden;
+                            padding-top: 56.25%;
+                            /* 16:9*/
+                            position: relative;
+                            }
+
+                            .iframe-container iframe {
+                            border: 0;
+                            height: 100%;
+                            left: 0;
+                            position: absolute;
+                            top: 0;
+                            width: 100%;
+                            }
+                                                    
+                        """
+
+            return f"""
                         <!DOCTYPE html>
                         <html>
                         <head>
-                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
                         <title>Display PDF from Base64</title>
                         </head>
                         <body>
-                        <embed src="data:application/pdf;base64,{output_pdf_base64}" type="application/pdf" width="100%" height="100%" />
+
+                        <style>
+                        {style_element}
+                           </style>
+                        
+                        <div class="iframe-container">
+                        <iframe width="560" height="315" src="data:application/pdf;base64,{output_pdf_base64}" type="application/pdf" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" loading="lazy" allowfullscreen></iframe>
+                        </div>
+
                         </body>
                         </html>
 
