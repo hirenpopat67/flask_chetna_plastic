@@ -6,3 +6,5 @@
 *logs
 instance
 *db
+*.csr
+*.pem
