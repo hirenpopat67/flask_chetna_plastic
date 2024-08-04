@@ -42,8 +42,8 @@ def google():
     )
 
     # Redirect to google_auth function
-    redirect_uri = url_for('login_blueprint.google_auth', _external=True)
-    print(redirect_uri)
+    redirect_uri = url_for('login_blueprint.google_auth', _external=True,_scheme="https")
+    # print(redirect_uri)
     session['nonce'] = generate_token()
     return oauth.google.authorize_redirect(redirect_uri, nonce=session['nonce'])
 
@@ -52,7 +52,7 @@ def google_auth():
     token = oauth.google.authorize_access_token()
     google_account_json = oauth.google.parse_id_token(token, nonce=session['nonce'])
     # session['user'] = user
-    print(" Google User ", google_account_json)
+    # print(" Google User ", google_account_json)
     user_try_to_login = Users(
         google_account_json=str(google_account_json)
     )
