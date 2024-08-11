@@ -22,8 +22,7 @@ def view_invoice():
        
         configuration = pdfkit.configuration(
             wkhtmltopdf='/usr/bin/wkhtmltopdf')
-
-        css = ['app/static/assets/css/bootstrap.min.css','app/static/assets/fonts/font-awesome/css/font-awesome.min.css','app/static/assets/css/style.css']
+        
         logo_path = 'app/static/images/favicon.jpg'
 
         data = {}
@@ -70,53 +69,13 @@ def view_invoice():
             # Render the template with data
             template = Template(html_string)
 
-            html_out = template.render(data)
+            html_out = template.render(data=data)
             # pdfkit.from_string(html_string, 'out.pdf',options=options,configuration=configuration,css=css)
             pdf_binary = pdfkit.from_string(html_out, False,options=options,configuration=configuration)
 
             output_pdf_base64 = b64encode(pdf_binary).decode('utf-8')
 
-            style_element = """
-
-                            .iframe-container {
-                            overflow: hidden;
-                            padding-top: 56.25%;
-                            /* 16:9*/
-                            position: relative;
-                            }
-
-                            .iframe-container iframe {
-                            border: 0;
-                            height: 100%;
-                            left: 0;
-                            position: absolute;
-                            top: 0;
-                            width: 100%;
-                            }
-                                                    
-                        """
-
-            return f"""
-                        <!DOCTYPE html>
-                        <html>
-                        <head>
-                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <title>Display PDF from Base64</title>
-                        </head>
-                        <body>
-
-                        <style>
-                        {style_element}
-                           </style>
-                        
-                        <div class="iframe-container">
-                        <iframe width="560" height="315" src="data:application/pdf;base64,{output_pdf_base64}" type="application/pdf" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" loading="lazy" allowfullscreen></iframe>
-                        </div>
-
-                        </body>
-                        </html>
-
-                    """
+            return render_template('view_invoice.html',data=data)
         else:
             return render_template("404.html")
 
