@@ -73,7 +73,7 @@ def google_auth():
 
             login_user(check_user)
             flash('LOGIN SUCCESSFUL','success')
-            return redirect('/all_invoices')
+            return redirect('/dashboard')
     else:
         flash('Something went wrong','error')
         return redirect('/')

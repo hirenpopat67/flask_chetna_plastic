@@ -6,12 +6,12 @@ from flask_login import login_required
 delete_invoice_blueprint = Blueprint('delete_invoice_blueprint', __name__)
 
 
-@delete_invoice_blueprint.route('/delete_invoice',methods=['POST'])
+@delete_invoice_blueprint.route('/delete_invoice',methods=['GET'])
 @login_required
 def delete_invoice():
     try:
 
-        id = request.form.get('delete_invoice_id')
+        id = request.args.get('delete_invoice_id')
         
         if id:
             delete_inv = Invoices.query.filter(Invoices.id == id).first()
