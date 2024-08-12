@@ -12,7 +12,7 @@ def logout():
         logout_user()
         flash('LOGOUT SUCCESSFUL','success')
 
-        return render_template('login.html')
+        return redirect('/')
 
     except Exception as e:
         current_app.logger.error(f"{str(e)} WHICH_API = {request.path}", exc_info=True)

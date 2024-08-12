@@ -27,6 +27,8 @@ def all_invoices():
                 new_data[column.name] = column_value
                 
             new_data['invoice_json'] = json.loads((getattr(fai, 'invoice_json')))
+            invoice_date = fai.invoice_date
+            new_data['invoice_date'] = f"{invoice_date.day}/{invoice_date.month}/{invoice_date.year}"
 
             data.append(new_data)
         
