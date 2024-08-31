@@ -5,10 +5,10 @@ from app import db
 import json
 from flask_login import login_required
 
-create_customer_blueprint = Blueprint('create_customer_blueprint', __name__)
+add_customer_blueprint = Blueprint('add_customer_blueprint', __name__)
 
 
-@create_customer_blueprint.route('/create_customer',methods = ['GET','POST'])
+@add_customer_blueprint.route('/add_customer',methods = ['GET','POST'])
 @login_required
 def create_customer():
     try:
@@ -21,13 +21,13 @@ def create_customer():
 
             if not customer_name or not customer_place:
                 flash('Customer Name and Customer Place cannot empty','error')
-                return redirect('/create_customer')
+                return redirect('/add_customer')
 
             check_exist_cus = Customers.query.filter(Customers.customer_name == customer_name,Customers.customer_place==customer_place).first()
 
             if check_exist_cus:
                 flash('Customer Name and Customer Place already exist','warning')
-                return redirect('/create_customer')
+                return redirect('/add_customer')
 
 
             add_customer = Customers(
@@ -42,9 +42,9 @@ def create_customer():
             db.session.commit()
             
             flash(f'{customer_name} Customer successfully added','success')
-            return redirect('/all_invoices')
+            return redirect('/all_customers')
 
-        return render_template('create_customer.html')
+        return render_template('add_customer.html')
 
     except Exception as e:
         current_app.logger.error(f"{str(e)} WHICH_API = {request.path}", exc_info=True)

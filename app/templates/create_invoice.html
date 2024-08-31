@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block title %}
 Add Invoice
@@ -6,13 +6,19 @@ Add Invoice
 
 {% block body %}
 
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Create Invoice</h1>
 
+  <!-- <div class="btn-toolbar mb-2 mb-md-0">
 
-<div class="container">
-<h1>Create Invoice</h1>
-</div>
+    <a href="/create_invoice" style="text-decoration:none"><button type="button" class="btn btn-sm btn-outline-secondary  d-flex align-items-center gap-1">
+      <svg class="bi"><use xlink:href="#file-earmark-text"/></svg>
+      Create Invoice
+    </button></a>
+  </div> -->
 
-<br>
+  </div>
+
 
 <div class="container">
   <center><h2>Customer Details</h2></center>

@@ -6,11 +6,11 @@ from flask_login import login_required
 delete_customer_blueprint = Blueprint('delete_customer_blueprint', __name__)
 
 
-@delete_customer_blueprint.route('/delete_customer',methods=['POST'])
+@delete_customer_blueprint.route('/delete_customer',methods=['GET'])
 @login_required
 def delete_customer():
     try:
-        id = request.form.get('delete_customer_id')
+        id = request.args.get('delete_customer_id')
         
         if id:
             delete_cus = Customers.query.filter(Customers.id == id).first()

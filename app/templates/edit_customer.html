@@ -1,27 +1,33 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block title %}
-Add Customer
+Edit Customer
 {% endblock title %}
 
 {% block body %}
 
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Edit Customer</h1>
 
+  <!-- <div class="btn-toolbar mb-2 mb-md-0">
 
-<div class="container">
-<h1>Add Customer</h1>
-</div>
+    <a href="/create_invoice" style="text-decoration:none"><button type="button" class="btn btn-sm btn-outline-secondary  d-flex align-items-center gap-1">
+      <svg class="bi"><use xlink:href="#file-earmark-text"/></svg>
+      Create Invoice
+    </button></a>
+  </div> -->
 
-<br>
+  </div>
+
 
 <div class="container">
   <center><h2>Customer Details</h2></center>
   <br>
-    <form class="row g-3" method="POST" action="/create_customer">
+    <form class="row g-3" method="POST" action="/add_customer">
           
           <div class="col-md-6 form-floating">
             
-            <input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Customer Name" autocomplete="off" oninput="convertToUpperCase(this)" required>
+            <input type="text" class="form-control" name="customer_name" value="{{data.customer_name}}" id="customer_name" placeholder="Customer Name" autocomplete="off" oninput="convertToUpperCase(this)" required>
                   <label for="floatingPassword">Customer Name</label>
           </div>
 
@@ -50,23 +56,10 @@ Add Customer
     </div>
         
       </table>
-
-
         
       </form>
 </div>
 
-<!-- <script>
-
-  var select_box_element = document.querySelector('#customer_name');
-
-  dselect(select_box_element, {
-      search: true
-  });
-
-</script> -->
-
-
+<!-- For converting text to uppercase -->
 <script src="../static/js/create_invoice.js"></script>
-
 {% endblock body %}
