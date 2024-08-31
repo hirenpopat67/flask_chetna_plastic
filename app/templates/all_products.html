@@ -1,22 +1,22 @@
 {% extends "base.html" %}
 
 {% block title %}
-All Customers
+All Products
 {% endblock title %}
 
 {% block body %}
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-  <h1 class="h2">Customers</h1>
+  <h1 class="h2">Products</h1>
 
   <div class="btn-toolbar mb-2 mb-md-0">
 
-    <a href="/create_customer" style="text-decoration:none"><button type="button" class="btn btn-sm btn-outline-secondary  d-flex align-items-center gap-1">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-add" viewBox="0 0 16 16">
-        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
-        <path d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z"/>
+    <a href="/add_product" style="text-decoration:none"><button type="button" class="btn btn-sm btn-outline-secondary  d-flex align-items-center gap-1">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16">
+        <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z"/>
+        <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
       </svg>
-      Create Customer
+      Add Product
     </button></a>
   </div>
 
@@ -24,11 +24,11 @@ All Customers
 
   
 {% if data|length == 0 %}
-<center><h1>No Customer Found</h1></center>
+<center><h1>No Product Found</h1></center>
 
   {% else %}
 
-<center><h2>All Customers</h2></center>
+<center><h2>All Products</h2></center>
 <br>
 <div class="table-responsive-sm">
 
@@ -36,11 +36,8 @@ All Customers
       <thead class="table-secondary">
         <tr>
           <th>Sr No.</th>
-          <th>Customer Name</th>
-          <th>Customer Place</th>
-          <th>Mobile No.</th>
-          <th>Discount</th>
-          <th>GST No.</th>
+          <th>Product Name</th>
+          <th>Product Price</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -50,16 +47,13 @@ All Customers
 
         <tr>
           <th scope="row">{{loop.index}}</th>
-          <td>{{item.customer_name}}</td>
-          <td>{{item.customer_place}}</td>
-          <td>{{item.mobile_no}}</td>
-          <td>{{item.discount}}</td>
-          <td>{{item.gst_no}}</td>
-
+          <td>{{item.product_name}}</td>
+          <td>{{item.product_price}}</td>
+  
           <td>
             <div class="btn-group btn-group-sm" role="group" aria-label="Basic mixed styles example">
-                <a href="/edit_customer?id={{item.id}}"><button type="button" class="btn btn-success">Edit</button></a>
-                <button type="button" value="{{item.id}}" class="btn btn-danger btndelete">Delete</button>
+                <a href="/edit_product?id={{item.id}}"><button type="button" class="btn btn-success">Edit</button></a>
+                <button type="button" value="{{item.id}}-{{item.product_name}}" class="btn btn-danger btndelete">Delete</button>
             </div>
           </td>
 
@@ -79,11 +73,11 @@ All Customers
 
             // Split the combined value into id and invoice_no
             var values = combinedValue.split('-');
-            var delete_invoice_id = values[0];           // This will be the first part (e.g., "12345")
-            var invoice_no = values[1]; 
+            var delete_product_id = values[0];           // This will be the first part (e.g., "12345")
+            var product_name = values[1]; 
             Swal.fire({
             title: "Are you sure?",
-            text: `You want to delete invoice No ${invoice_no}, You won't be able to revert this!`,
+            text: `You want to delete ${product_name} Product, You won't be able to revert this!`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#d33",
@@ -91,7 +85,7 @@ All Customers
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
           if (result.isConfirmed) {
-            window.location.href = `/delete_invoice?delete_invoice_id=${delete_invoice_id}`;
+            window.location.href = `/delete_product?delete_product_id=${delete_product_id}`;
           }
         });
 

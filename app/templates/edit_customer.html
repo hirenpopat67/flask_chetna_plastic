@@ -23,7 +23,7 @@ Edit Customer
 <div class="container">
   <center><h2>Customer Details</h2></center>
   <br>
-    <form class="row g-3" method="POST" action="/add_customer">
+    <form class="row g-3" method="POST" action="/edit_customer?id={{data.id}}">
           
           <div class="col-md-6 form-floating">
             
@@ -32,22 +32,22 @@ Edit Customer
           </div>
 
           <div class="col-md-6 form-floating">
-            <input type="number" class="form-control" name="customer_mobile_no" id="customer_mobile_no" placeholder="Customer Mobile Number" min="10" autocomplete="off">
+            <input type="number" class="form-control" name="customer_mobile_no" value="{{data.mobile_no}}"id="customer_mobile_no" placeholder="Customer Mobile Number" min="10" autocomplete="off">
             <label for="floatingPassword">Customer Mobile Number</label>
           </div>
   
           <div class="col-md-6 form-floating">
-            <input type="text" class="form-control" name="customer_place" id="customer_place" placeholder="Customer Place" autocomplete="off" oninput="convertToUpperCase(this)" required>
+            <input type="text" class="form-control" name="customer_place" value="{{data.customer_place}}" id="customer_place" placeholder="Customer Place" autocomplete="off" oninput="convertToUpperCase(this)" required>
             <label for="floatingPassword">Customer Place</label>
           </div>
 
           <div class="col-md-6 form-floating">
-            <input type="text" class="form-control" name="customer_gst_no" id="customer_gst_no" placeholder="Customer GST Number" autocomplete="off">
+            <input type="text" class="form-control" name="customer_gst_no" value="{{data.gst_no}}" id="customer_gst_no" placeholder="Customer GST Number" autocomplete="off">
             <label for="floatingPassword">Customer GST Number</label>
         </div>
 
         <div class="col-md-12 form-floating">
-            <input type="number" class="form-control" name="customer_discount_percentage" autocomplete="off" placeholder="Customer Discount Percentage">
+            <input type="number" class="form-control" name="customer_discount_percentage" value="{{data.discount_percentage}}" autocomplete="off" placeholder="Customer Discount Percentage">
             <label for="floatingPassword">Customer Discount Percentage</label>
         </div>
 
@@ -61,5 +61,18 @@ Edit Customer
 </div>
 
 <!-- For converting text to uppercase -->
-<script src="../static/js/create_invoice.js"></script>
+<script>
+  // START =============================================================
+
+$(document).ready(function() {
+
+// Initialize 
+convertToUpperCase();
+
+})
+
+function convertToUpperCase(input) {
+input.value = input.value.toUpperCase();
+}
+</script>
 {% endblock body %}

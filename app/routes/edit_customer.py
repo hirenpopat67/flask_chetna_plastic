@@ -15,9 +15,7 @@ def edit_customer():
 
         id = request.args.get('id',None)
 
-
         fetch_customer = Customers.query.filter(Customers.id == id).first()
-        
 
         if request.method == 'POST':
             customer_name = request.form.get('customer_name',None)
@@ -31,10 +29,10 @@ def edit_customer():
                 return redirect('/edit_customer')
 
 
-            fetch_customer.customer_name = customer_name,
-            fetch_customer.customer_place = customer_place,
-            fetch_customer.mobile_no = customer_mobile_no,
-            fetch_customer.gst_no = customer_gst_no,
+            fetch_customer.customer_name = customer_name
+            fetch_customer.customer_place = customer_place
+            fetch_customer.mobile_no = customer_mobile_no
+            fetch_customer.gst_no = customer_gst_no
             fetch_customer.discount_percentage = customer_discount_percentage
 
             db.session.commit()

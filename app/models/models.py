@@ -45,6 +45,7 @@ class Users(UserMixin,db.Model):
     name = db.Column(db.Text)
     email = db.Column(db.Text)
     google_account_json = db.Column(db.Text)
+    logged_in = db.Column(db.Boolean, default=False)
     last_logged_in =  db.Column(db.DateTime, default=datetime.now,onupdate=datetime.now)
 
 class Company(db.Model):

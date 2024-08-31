@@ -52,29 +52,40 @@ def google_auth():
     google_account_json = oauth.google.parse_id_token(token, nonce=session['nonce'])
     # session['user'] = user
     # print(" Google User ", google_account_json)
-    user_try_to_login = Users(
-        google_account_json=str(google_account_json)
-    )
-    db.session.add(user_try_to_login)
-    db.session.commit()
     email = google_account_json.get('email',None)
-    if email:
-        check_user = Users.query.filter(Users.email == email).first()
+    name = google_account_json.get('name',None)
 
-        if not check_user:
+    ADMIN_EMAIL = os.getenv('ADMIN_EMAIL',None)
+
+    check_user = Users.query.filter(Users.email == email).first()
+    if email:
+        if email != ADMIN_EMAIL:
+            if not check_user:
+                user_try_to_login = Users(name = name,email=email,google_account_json=str(google_account_json))
+                db.session.add(user_try_to_login)
+                db.session.commit()
+            else:
+                check_user.name = name
+                check_user.google_account_json = str(google_account_json)
+                db.session.commit()
             flash('You are not authorize user','error')
             return redirect('/')
         else:
-            name = google_account_json.get('name',None)
-            check_user.name = name
-            check_user.google_account_json = str(google_account_json)
-            db.session.commit()
-
-            login_user(check_user)
+            if not check_user:
+                user_try_to_login = Users(name = name,email=email,google_account_json=str(google_account_json),logged_in=True)
+                db.session.add(user_try_to_login)
+                db.session.commit()
+                login_user(check_user)
+            else:
+                check_user.name = name
+                check_user.google_account_json = str(google_account_json)
+                check_user.logged_in = True
+                db.session.commit()
+                login_user(check_user)
             flash('LOGIN SUCCESSFUL','success')
             return redirect('/dashboard')
     else:
-        flash('Something went wrong','error')
+        flash('Email not found, Please contact developer!','error')
         return redirect('/')
 
 @login_manager.user_loader

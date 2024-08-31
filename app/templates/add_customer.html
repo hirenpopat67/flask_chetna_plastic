@@ -61,5 +61,18 @@ Add Customer
 </div>
 
 <!-- For converting text to uppercase -->
-<script src="../static/js/create_invoice.js"></script>
+<script>
+  // START =============================================================
+
+$(document).ready(function() {
+
+// Initialize 
+convertToUpperCase();
+
+})
+
+function convertToUpperCase(input) {
+input.value = input.value.toUpperCase();
+}
+</script>
 {% endblock body %}

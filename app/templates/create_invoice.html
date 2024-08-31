@@ -27,7 +27,7 @@ Add Invoice
           
           <div class="col-md-6 form-floating">
             
-            <input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Customer Name" list="customer_names"required>
+            <input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Customer Name" list="customer_names"required autocomplete="off">
 
                   <!-- <select name="select_box" class="form-select" name="customer_name"  id="customer_name" >
                     <option value=""></option>
@@ -61,11 +61,11 @@ Add Invoice
         </div>
 
         <div class="col-md-3 form-floating">
-            <input type="text" class="form-control" name="parcel_details" id="" placeholder="Parcel Details" oninput="convertToUpperCase(this)">
+            <input type="text" class="form-control" name="parcel_details" id="" placeholder="Parcel Details" oninput="convertToUpperCase(this)" autocomplete="off">
             <label for="floatingPassword">Parcel Details</label>
         </div>
         <div class="col-md-3 form-floating">
-            <input type="text" class="form-control" name="note" id="" placeholder="Note">
+            <input type="text" class="form-control" name="note" id="" placeholder="Note" autocomplete="off">
             <label for="floatingPassword">Note</label>
             </div>
 
@@ -96,7 +96,7 @@ Add Invoice
             <tr>
               <td><button type="button" class="btn btn-primary remove_row">-</button></td>
               <!-- <td>1</td> -->
-              <td><input type="text" style="width: fit-content" name="product_name" class="form-control border-secondary" list="product_list" required></td>
+              <td><input type="text" style="width: fit-content" name="product_name" class="form-control border-secondary" list="product_list" required autocomplete="off"></td>
               <td><input type="number" style="width: fit-content" name="qty" class="form-control border-secondary"></td>
               <td><input type="number" style="width: fit-content" name="product_price" class="form-control border-secondary"></td>
               <td><input type="number" style="width: fit-content" name="total_price_amount" class="form-control border-secondary" readonly></td>
