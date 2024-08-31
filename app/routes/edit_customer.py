@@ -17,8 +17,6 @@ def edit_customer():
 
 
         fetch_customer = Customers.query.filter(Customers.id == id).first()
-
-        print("fetch_customer>> ",fetch_customer)
         
 
         if request.method == 'POST':

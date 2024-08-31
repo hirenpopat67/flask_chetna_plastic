@@ -6,6 +6,7 @@ load_dotenv()
 from authlib.common.security import generate_token
 from app.models.models import Users
 from flask_login import login_user,current_user
+import ast
 
 login_blueprint = Blueprint('login_blueprint', __name__)
 
@@ -13,8 +14,6 @@ login_blueprint = Blueprint('login_blueprint', __name__)
 @login_blueprint.route('/')
 def login():
     try:
-
-        db.create_all()
 
         return render_template('login.html')
 
@@ -86,4 +85,15 @@ def load_user(user_id):
 
 @login_blueprint.app_context_processor
 def inject_user():
+    # Ensure the attribute exists and is not None before trying to load JSON
+    google_account_json_str = getattr(current_user, 'google_account_json', None)
+    if google_account_json_str:
+        try:
+            current_user.google_account_json =ast.literal_eval(google_account_json_str)
+        except Exception as e:
+            print(f"Error decoding JSON: {e}")
+            current_user.google_account_json = {}
+    else:
+        current_user.google_account_json = {}
+    
     return {'current_user': current_user}

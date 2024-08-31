@@ -46,3 +46,12 @@ class Users(UserMixin,db.Model):
     email = db.Column(db.Text)
     google_account_json = db.Column(db.Text)
     last_logged_in =  db.Column(db.DateTime, default=datetime.now,onupdate=datetime.now)
+
+class Company(db.Model):
+
+    __tablename__ = "company"
+
+    id = db.Column(db.Integer, primary_key=True)
+    company_name = db.Column(db.Text)
+    company_gst_no = db.Column(db.Text)
+    date_time_added = db.Column(db.DateTime, default=datetime.now())

@@ -206,11 +206,12 @@
 </svg>
 
 <header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
-  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="#">Company name</a>
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="#">coma</a>
 
+  {% if current_user.is_authenticated %}
 <div class="navbar-brand dropdown">
   <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="#">
-    <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+    <img src="{{current_user['google_account_json']['picture']}}" alt="mdo" width="32" height="32" class="rounded-circle">
                 {{current_user.name}}
   </a>
 
@@ -235,6 +236,7 @@
     <li><a class="dropdown-item" href="#">Something else here</a></li>
   </ul>
   </div>
+  {% endif %}
 
   <ul class="navbar-nav flex-row d-md-none">
     <li class="nav-item text-nowrap">
@@ -361,10 +363,7 @@
             {% if current_user.is_authenticated %}
             <li class="nav-item">
               <a class="nav-link d-flex align-items-center gap-2" href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                </svg>
+                <img src="{{current_user['google_account_json']['picture']}}" width="16" height="16" class="bi bi-person-circle rounded-circle" alt="Person Circle Icon">
                 {{current_user.name}}
               </a>
             </li>
