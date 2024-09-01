@@ -55,4 +55,6 @@ class Company(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     company_name = db.Column(db.Text)
     company_gst_no = db.Column(db.Text)
+    company_logo = db.Column(db.LargeBinary)
+    company_favicon = db.Column(db.LargeBinary)
     date_time_added = db.Column(db.DateTime, default=datetime.now())

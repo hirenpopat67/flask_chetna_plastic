@@ -39,9 +39,9 @@ All Invoices
           <th>Date</th>
           <th>Customer Name</th>
           <th>Customer Place</th>
-          <th>Total Amount</th>
-          <th>GST Amount</th>
-          <th>Final Bill Amount</th>
+          <th>Total Amount (₹)</th>
+          <th>GST Amount (18%)</th>
+          <th>Final Bill Amount (₹)</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -54,9 +54,9 @@ All Invoices
           <td>{{item.invoice_date if item.invoice_date != 'None'}}</td>
           <td>{{item.customer_name}}</td>
           <td>{{item.customer_place}}</td>
-          <td style="background-color: yellowgreen;">{{ item.invoice_json['total_amount'] | default('') }}</td>
-          <td>{{ item.invoice_json['gst_amount'] | default('') }}</td>
-          <td style="background-color: yellowgreen;">{{ item.invoice_json['final_amount'] | default('') }}</td>
+          <td><strong>{{ item.invoice_json['total_amount'] | default('') }} ₹</strong></td>
+          <td>{{ item.invoice_json['gst_amount'] | default('') }} ₹</td>
+          <td><strong>{{ item.invoice_json['final_amount'] | default('') }} ₹</strong></td>
 
           <td>
             <div class="btn-group btn-group-sm" role="group" aria-label="Basic mixed styles example">

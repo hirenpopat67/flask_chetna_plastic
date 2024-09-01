@@ -7,6 +7,7 @@ from authlib.common.security import generate_token
 from app.models.models import Users,Company
 from flask_login import login_user,current_user
 import ast
+from base64 import b64encode
 
 login_blueprint = Blueprint('login_blueprint', __name__,template_folder='templates')
 
@@ -119,5 +120,12 @@ def inject_company_details():
                 company_name='My Company',
                 company_gst_no='ABCD1234'
             )
+        else:
+            company_logo = fetch_company_details.company_logo
+            company_favicon = fetch_company_details.company_favicon
+            if company_logo:
+                fetch_company_details.company_logo = b64encode(company_logo).decode('utf-8')
+            if company_favicon:
+                fetch_company_details.company_favicon = b64encode(company_favicon).decode('utf-8')
         
         return {'fetch_company_details': fetch_company_details}
