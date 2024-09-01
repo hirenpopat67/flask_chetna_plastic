@@ -55,6 +55,33 @@ class Company(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     company_name = db.Column(db.Text)
     company_gst_no = db.Column(db.Text)
-    company_logo = db.Column(db.LargeBinary)
-    company_favicon = db.Column(db.LargeBinary)
+    company_logo = db.Column(db.Text)
+    company_favicon = db.Column(db.Text)
     date_time_added = db.Column(db.DateTime, default=datetime.now())
+
+    @classmethod
+    def ensure_dummy_data(cls):
+        # Check if any company records exist
+        existing_company = cls.query.first()
+        if not existing_company:
+            # No records found, insert dummy data
+
+            try:
+                with open('../static/images/dummy_logo_base64.txt', 'r') as f:
+                    dummy_img = f.read()
+            except FileNotFoundError:
+                pass
+                # Handle the error (e.g., log it, raise an exception, etc.)
+            except Exception as e:
+                pass
+                # Handle other possible exceptions
+                
+            dummy_company = cls(
+                company_name="Dummy Company",
+                company_gst_no="DUMMY123456",
+                company_logo=dummy_img,
+                company_favicon=dummy_img,
+                date_time_added=datetime.now()
+            )
+            db.session.add(dummy_company)
+            db.session.commit()

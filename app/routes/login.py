@@ -118,14 +118,7 @@ def inject_company_details():
         if not fetch_company_details:
             fetch_company_details = Company(
                 company_name='My Company',
-                company_gst_no='ABCD1234'
+                company_gst_no='ABCD1234',
+                # company_='ABCD1234',
             )
-        else:
-            company_logo = fetch_company_details.company_logo
-            company_favicon = fetch_company_details.company_favicon
-            if company_logo:
-                fetch_company_details.company_logo = b64encode(company_logo).decode('utf-8')
-            if company_favicon:
-                fetch_company_details.company_favicon = b64encode(company_favicon).decode('utf-8')
-        
         return {'fetch_company_details': fetch_company_details}
