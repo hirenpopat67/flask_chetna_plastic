@@ -6,11 +6,11 @@ from flask_login import login_required
 delete_product_blueprint = Blueprint('delete_product_blueprint', __name__)
 
 
-@delete_product_blueprint.route('/delete_product',methods=['POST'])
+@delete_product_blueprint.route('/delete_product',methods=['GET'])
 @login_required
 def delete_product():
     try:
-        id = request.form.get('delete_product_id')
+        id = request.args.get('delete_product_id')
         
         if id:
             delete_pro = Products.query.filter(Products.id == id).first()

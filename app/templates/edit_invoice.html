@@ -35,7 +35,7 @@ Edit Invoice
           <datalist id="customer_names">
             {% for x in context.all_customers %}
 
-            <option value="{{x.customer_name}}">{{x.customer_name}} {{x.customer_place}}</option>
+            <option value="{{x.customer_name}}">{{x.customer_name}} @ {{x.customer_place}}</option>
             {% endfor %}
         </datalist>
 
@@ -162,6 +162,6 @@ Edit Invoice
 </script> -->
 
 
-<script src="../static/js/create_invoice.js"></script>
+<script src="../static/js/add_invoice.js"></script>
 
 {% endblock body %}

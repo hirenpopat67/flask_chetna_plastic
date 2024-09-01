@@ -6,5 +6,6 @@ app.register_error_handler(404, page_not_found)
 
 if __name__ == '__main__':
     with app.app_context():
+        create_env_file()
         db.create_all()
     app.run(debug=True,host='0.0.0.0',port=2002, ssl_context=('cert.pem', 'key.pem'))

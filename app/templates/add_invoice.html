@@ -7,7 +7,7 @@ Add Invoice
 {% block body %}
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-  <h1 class="h2">Create Invoice</h1>
+  <h1 class="h2">Add Invoice</h1>
 
   <!-- <div class="btn-toolbar mb-2 mb-md-0">
 
@@ -41,7 +41,7 @@ Add Invoice
           <datalist id="customer_names">
             {% for x in context.all_customers %}
 
-            <option value="{{x.customer_name}}">{{x.customer_name}} {{x.customer_place}}</option>
+            <option value="{{x.customer_name}}">{{x.customer_name}} @ {{x.customer_place}}</option>
             {% endfor %}
         </datalist>
 
@@ -165,6 +165,6 @@ Add Invoice
 </script> -->
 
 
-<script src="../static/js/create_invoice.js"></script>
+<script src="../static/js/add_invoice.js"></script>
 
 {% endblock body %}

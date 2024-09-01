@@ -264,7 +264,7 @@ function convertToUpperCase(input) {
     
 
 //   // Make a POST request to Flask backend
-//   fetch('/create_invoice', {
+//   fetch('/add_invoice', {
 //     method: 'POST',
 //     headers: {
 //       'Content-Type': 'application/json',
@@ -276,7 +276,7 @@ function convertToUpperCase(input) {
 //     // Handle the response from the server
 //     console.log('Response from server:', data);
 
-//     // Redirect to the create_invoice route
+//     // Redirect to the add_invoice route
 //     window.location.href = '/all_invoices';
 //   })
 //   .catch(error => {

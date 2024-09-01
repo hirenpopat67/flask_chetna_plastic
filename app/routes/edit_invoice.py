@@ -1,7 +1,7 @@
 from flask import Blueprint,render_template,redirect,current_app,request,flash
 from app.models.models import Invoices,Customers,Products
 import json
-from app.routes.create_invoice import invoice_data_validator,invoice_data_processor
+from app.routes.add_invoice import invoice_data_validator,invoice_data_processor
 from datetime import datetime
 from app import db
 from flask_login import login_required

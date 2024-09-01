@@ -26,14 +26,13 @@ SECRET_KEY=
 SQLALCHEMY_DATABASE_URI=
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
+ADMIN_EMAIL=
 ''')
     
     except Exception as e:
         print("Some Error Occurred", e)
 
 app = Flask(__name__,static_folder='static',template_folder='templates')
-create_env_file()
-CWD = os.getcwd()
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY','Flask_app_secret........')
 SQLALCHEMY_DATABASE_URI=os.getenv('SQLALCHEMY_DATABASE_URI')

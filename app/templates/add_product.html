@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}
+Add Product
+{% endblock title %}
+
+{% block body %}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Add Product</h1>
+
+  <!-- <div class="btn-toolbar mb-2 mb-md-0">
+
+    <a href="/add_invoice" style="text-decoration:none"><button type="button" class="btn btn-sm btn-outline-secondary  d-flex align-items-center gap-1">
+      <svg class="bi"><use xlink:href="#file-earmark-text"/></svg>
+      Create Invoice
+    </button></a>
+  </div> -->
+
+  </div>
+
+
+<div class="container">
+  <center><h2>Product Details</h2></center>
+  <br>
+    <form class="row g-3" method="POST" action="/add_product">
+          
+          <div class="col-md-6 form-floating">
+            
+            <input type="text" class="form-control" name="product_name" id="product_name" placeholder="Product Name" autocomplete="off" required>
+                  <label for="floatingPassword">Product Name</label>
+          </div>
+
+          <div class="col-md-6 form-floating">
+            <input type="number" class="form-control" name="product_price" id="product_price" placeholder="Product Price" autocomplete="off">
+            <label for="floatingPassword">Product Price</label>
+          </div>
+  
+        <button type="submit" id="save" class="btn btn-success">Save</button>
+    </div>
+        
+      </table>
+        
+      </form>
+</div>
+
+{% endblock body %}

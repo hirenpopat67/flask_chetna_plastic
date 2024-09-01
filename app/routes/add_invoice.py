@@ -5,12 +5,12 @@ from app import db
 import json
 from flask_login import login_required
 
-create_invoice_blueprint = Blueprint('create_invoice_blueprint', __name__)
+add_invoice_blueprint = Blueprint('add_invoice_blueprint', __name__)
 
 
-@create_invoice_blueprint.route('/create_invoice',methods = ['GET','POST'])
+@add_invoice_blueprint.route('/add_invoice',methods = ['GET','POST'])
 @login_required
-def create_invoice():
+def add_invoice():
     try:
 
         all_customers = Customers.query.order_by(Customers.customer_name).all()
@@ -40,7 +40,7 @@ def create_invoice():
             validation_error = invoice_data_validator(invoice_data)
             if validation_error:
                 flash(validation_error,'error')
-                return redirect('/create_invoice')
+                return redirect('/add_invoice')
             
             invoice_data_processed = invoice_data_processor(invoice_data)
             
@@ -61,13 +61,13 @@ def create_invoice():
             try:
                 db.session.commit()
                 flash(f"{invoice_data['customer_name'][0]} Customer Invoice successfully added",'success')
-                return redirect('create_invoice')
+                return redirect('add_invoice')
             except Exception as e:
                 flash(e,'danger')
                 return redirect('500.html'), 500
 
             
-        return render_template('create_invoice.html',context=context)
+        return render_template('add_invoice.html',context=context)
 
     except Exception as e:
         current_app.logger.error(f"{str(e)} WHICH_API = {request.path}", exc_info=True)

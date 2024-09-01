@@ -10,7 +10,7 @@ add_customer_blueprint = Blueprint('add_customer_blueprint', __name__)
 
 @add_customer_blueprint.route('/add_customer',methods = ['GET','POST'])
 @login_required
-def create_customer():
+def add_customer():
     try:
         if request.method == 'POST':
             customer_name = request.form.get('customer_name',None)

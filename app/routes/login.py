@@ -4,11 +4,11 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 from authlib.common.security import generate_token
-from app.models.models import Users
+from app.models.models import Users,Company
 from flask_login import login_user,current_user
 import ast
 
-login_blueprint = Blueprint('login_blueprint', __name__)
+login_blueprint = Blueprint('login_blueprint', __name__,template_folder='templates')
 
 
 @login_blueprint.route('/')
@@ -108,3 +108,16 @@ def inject_user():
         current_user.google_account_json = {}
     
     return {'current_user': current_user}
+
+@login_blueprint.app_context_processor
+def inject_company_details():
+    with db.session.no_autoflush:  # Prevent premature autoflush
+        fetch_company_details = Company.query.first()
+        
+        if not fetch_company_details:
+            fetch_company_details = Company(
+                company_name='My Company',
+                company_gst_no='ABCD1234'
+            )
+        
+        return {'fetch_company_details': fetch_company_details}
