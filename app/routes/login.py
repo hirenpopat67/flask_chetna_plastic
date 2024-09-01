@@ -114,11 +114,4 @@ def inject_user():
 def inject_company_details():
     with db.session.no_autoflush:  # Prevent premature autoflush
         fetch_company_details = Company.query.first()
-        
-        if not fetch_company_details:
-            fetch_company_details = Company(
-                company_name='My Company',
-                company_gst_no='ABCD1234',
-                # company_='ABCD1234',
-            )
         return {'fetch_company_details': fetch_company_details}
