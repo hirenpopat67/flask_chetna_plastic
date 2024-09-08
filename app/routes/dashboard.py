@@ -6,8 +6,8 @@ from flask_login import login_required
 dashboard_blueprint = Blueprint('dashboard_blueprint', __name__)
 
 
-@dashboard_blueprint.route('/dashboard')
-# @login_required
+@dashboard_blueprint.route('/')
+@login_required
 def dashboard():
     try:
         return render_template('dashboard.html')

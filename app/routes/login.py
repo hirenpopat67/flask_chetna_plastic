@@ -12,7 +12,7 @@ from base64 import b64encode
 login_blueprint = Blueprint('login_blueprint', __name__,template_folder='templates')
 
 
-@login_blueprint.route('/')
+@login_blueprint.route('/login')
 def login():
     try:
 
@@ -84,7 +84,7 @@ def google_auth():
                 db.session.commit()
                 login_user(check_user)
             flash('LOGIN SUCCESSFUL','success')
-            return redirect('/dashboard')
+            return redirect('/')
     else:
         flash('Email not found, Please contact developer!','error')
         return redirect('/')
