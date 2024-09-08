@@ -2,7 +2,7 @@ from flask import Blueprint,render_template,redirect,current_app,request,flash,u
 from flask_login import login_required
 import pdfkit
 import platform
-from app.models.models import Invoices 
+from app.models.models import Invoices,Company
 import json
 from base64 import b64encode
 from jinja2 import Template
@@ -22,8 +22,6 @@ def view_invoice():
        
         configuration = pdfkit.configuration(
             wkhtmltopdf='/usr/bin/wkhtmltopdf')
-        
-        logo_path = 'app/static/images/favicon.jpg'
 
         data = {}
 
@@ -47,21 +45,23 @@ def view_invoice():
             invoice_date = fetch_invoice.invoice_date
             data['invoice_date'] = f"{invoice_date.day}/{invoice_date.month}/{invoice_date.year}"
 
-            context = {
 
-            'data': data,
+            fetch_company_details = Company.query.first()
 
-            }
+            if fetch_company_details:
 
-            # Read the binary data from the file
-            with open(logo_path, 'rb') as image_file:
-                binary_image_data = image_file.read()
-
-            # Encode the binary data to a Base64 string
-            logo_base64 = b64encode(binary_image_data).decode('utf-8')
+                logo_base64 =  fetch_company_details.company_favicon
+            else:
+                logo_base64 = None
 
             data['logo_base64'] = logo_base64
 
+            context = {
+
+            'data': data,
+            'fetch_company_details': fetch_company_details,
+
+            }
             # Step 1: Read the HTML string from the file
             with open('app/templates/view_invoice.html', 'r') as file:
                 html_string = file.read()
@@ -69,13 +69,13 @@ def view_invoice():
             # Render the template with data
             template = Template(html_string)
 
-            html_out = template.render(data=data)
+            html_out = template.render(context=context)
             # pdfkit.from_string(html_string, 'out.pdf',options=options,configuration=configuration,css=css)
             pdf_binary = pdfkit.from_string(html_out, False,options=options,configuration=configuration)
 
             output_pdf_base64 = b64encode(pdf_binary).decode('utf-8')
 
-            return render_template('view_invoice.html',data=data)
+            return render_template('view_invoice.html',context=context)
         else:
             return render_template("404.html")
 

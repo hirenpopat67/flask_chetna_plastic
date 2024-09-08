@@ -8,9 +8,9 @@
   </head>
   <body>    
 
-    <center><img style="width: 100px;" src="data:image/jpeg;base64, {{ data.logo_base64 }}" class="img-fluid" alt="..."></center> 
+    <center><img style="width: 100px;" src="data:image/jpeg;base64, {{ context.data.logo_base64 }}" class="img-fluid" alt="..."></center> 
     <br>
-    <center>GST NO: {{{{ fetch_company_details.company_gst_no }}}}</center>
+    <center>GST NO: {{ context.fetch_company_details.company_gst_no }}</center>
     <hr>
     <!-- <center><strong>INVOICE DETAILS</strong></center> -->
 
@@ -25,29 +25,29 @@
 
           <tr>
             <td>Invoice No.</td>
-            <td><strong>{{data.invoice_no}}</strong></td>
+            <td><strong>{{context.data.invoice_no}}</strong></td>
             <td>Invoice Date</td>
-            <td><strong>{{data.invoice_date}}</strong></td>
+            <td><strong>{{context.data.invoice_date}}</strong></td>
         </tr>
 
           <tr>
             <td>Customer Name</td>
-            <td><strong>{{data.customer_name}}</strong></td>
+            <td><strong>{{context.data.customer_name}}</strong></td>
             <td>Customer Place</td>
-            <td><strong>{{data.customer_place}}</strong></td>
+            <td><strong>{{context.data.customer_place}}</strong></td>
         </tr>
 
           <tr>
             <td>Customer Mobile No.</td>
-            <td><strong>{{data.invoice_json['customer_mobile_no']}}</strong></td>
+            <td><strong>{{context.data.invoice_json['customer_mobile_no']}}</strong></td>
             <td>Customer GST No.</td>
-            <td><strong>{{data.invoice_json['customer_gst_no']}}</strong></td>
+            <td><strong>{{context.data.invoice_json['customer_gst_no']}}</strong></td>
         </tr>
           <tr>
             <td>Parcel Details</td>
-            <td><strong>{{data.invoice_json['parcel_details']}}</strong></td>
+            <td><strong>{{context.data.invoice_json['parcel_details']}}</strong></td>
             <td>Note</td>
-            <td><strong>{{data.invoice_json['note']}}</strong></td>
+            <td><strong>{{context.data.invoice_json['note']}}</strong></td>
         </tr>
         </thead>
       </table>
@@ -81,8 +81,8 @@
             <tbody class="table-group-divider">
 
                 {% for i in range(15) %}
-                {% if loop.index <= data.invoice_json['items'] | length %}
-                {% set item_dict = data.invoice_json['items'][loop.index - 1 ] %}
+                {% if loop.index <= context.data.invoice_json['items'] | length %}
+                {% set item_dict = context.data.invoice_json['items'][loop.index - 1 ] %}
 
               <tr>
                 <th scope="row">{{loop.index}}</th>
@@ -114,27 +114,27 @@
 
               <tr>
                 <td colspan="4"><strong>SubTotal (INR)</strong></td>
-                <td><strong>₹ {{data.invoice_json['sub_total_amount']}}</strong></td>
+                <td><strong>₹ {{context.data.invoice_json['sub_total_amount']}}</strong></td>
             </tr>
               <tr>
                 <td colspan="4"><strong>Discount (%)</strong></td>
-                <td>{{data.invoice_json['discount_percentage']}}%</td>
+                <td>{{context.data.invoice_json['discount_percentage']}}%</td>
             </tr>
               <tr>
                 <td colspan="4"><strong>Discount (INR)</strong></td>
-                <td>₹ {{data.invoice_json['discount_amount']}}</td>
+                <td>₹ {{context.data.invoice_json['discount_amount']}}</td>
             </tr>
               <tr>
                 <td colspan="4"><strong>Total Bill (INR)</strong></td>
-                <td><strong>₹ {{data.invoice_json['total_amount']}}</strong></td>
+                <td><strong>₹ {{context.data.invoice_json['total_amount']}}</strong></td>
             </tr>
               <tr>
                 <td colspan="4"><strong>GST (18%) (INR)</strong></td>
-                <td>₹ {{data.invoice_json['gst_amount']}}</td>
+                <td>₹ {{context.data.invoice_json['gst_amount']}}</td>
             </tr>
               <tr>
                 <td colspan="4"><strong>Final Bill</strong></td>
-                <td><strong>₹ {{data.invoice_json['final_amount']}}</strong></td>
+                <td><strong>₹ {{context.data.invoice_json['final_amount']}}</strong></td>
             </tr>
 
             </tbody>

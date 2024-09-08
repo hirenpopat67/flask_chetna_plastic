@@ -5,6 +5,32 @@ services:
     command: gunicorn -k gevent -w 1 -b 0.0.0.0:2002 main:app
     ports:
       - 2002
+    depends_on:
+      - postgres
+    restart: always
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    ports: ["5432:5432"]
+    volumes: ["postgres-storage:/var/lib/postgresql/data"]
+    env_file:
+      - path: ./.env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    env_file:
+      - path: ./.env
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "5050:80"
+    volumes: ["pgadmin-storage:/var/lib/pgadmin/data"]
+    restart: unless-stopped
   nginx:
     image: nginx:latest
     volumes:
@@ -17,3 +43,6 @@ services:
       - 444:444
     depends_on:
       - chetnaplastic
+volumes:
+  postgres-storage:
+  pgadmin-storage:

@@ -1,5 +1,5 @@
 from flask import Blueprint,render_template,redirect,current_app,request,flash,url_for,session
-from app import oauth,login_manager,db
+from app import oauth,login_manager,db,app
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -7,10 +7,38 @@ from authlib.common.security import generate_token
 from app.models.models import Users,Company
 from flask_login import login_user,current_user
 import ast
-from base64 import b64encode
+from datetime import datetime
 
 login_blueprint = Blueprint('login_blueprint', __name__,template_folder='templates')
 
+
+@app.before_request
+def initialize_database():
+    with app.app_context():
+        db.create_all()
+
+        # Check if there are any records in the Company table
+        if Company.query.first() is None:
+            try:
+                with open('app/static/images/dummy_logo_base64.txt', 'r') as f:
+                    dummy_img = f.read()
+            except Exception as e:
+                dummy_img = None
+                app.logger.error(f"Error reading dummy image file: {e}")
+
+            # Add dummy data
+            dummy_company = Company(
+                company_name='Dummy Company',
+                company_gst_no='DUMMY123456',
+                company_logo=dummy_img,
+                company_favicon=dummy_img,
+                date_time_added=datetime.now()
+            )
+            db.session.add(dummy_company)
+            db.session.commit()
+            app.logger.info("Dummy company data added.")
+
+            # app.logger.info("Company table already has records.")
 
 @login_blueprint.route('/login')
 def login():
@@ -73,10 +101,10 @@ def google_auth():
             return redirect('/')
         else:
             if not check_user:
-                user_try_to_login = Users(name = name,email=email,google_account_json=str(google_account_json),logged_in=True)
-                db.session.add(user_try_to_login)
+                admin_user_try_to_login = Users(name = name,email=email,google_account_json=str(google_account_json),logged_in=True)
+                db.session.add(admin_user_try_to_login)
                 db.session.commit()
-                login_user(check_user)
+                login_user(admin_user_try_to_login)
             else:
                 check_user.name = name
                 check_user.google_account_json = str(google_account_json)
