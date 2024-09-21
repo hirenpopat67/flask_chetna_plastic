@@ -84,11 +84,17 @@ def google_auth():
     email = google_account_json.get('email',None)
     name = google_account_json.get('name',None)
 
-    ADMIN_EMAIL = os.getenv('ADMIN_EMAIL',None)
+    ADMIN_EMAILS = os.getenv('ADMIN_EMAILS',None)
+
+    # Convert the string to a list if it's not None
+    if ADMIN_EMAILS:
+        ADMIN_EMAIL_LIST = ADMIN_EMAILS.split(',')
+    else:
+        ADMIN_EMAIL_LIST = []
 
     check_user = Users.query.filter(Users.email == email).first()
     if email:
-        if email != ADMIN_EMAIL:
+        if email not in ADMIN_EMAIL_LIST:
             if not check_user:
                 user_try_to_login = Users(name = name,email=email,google_account_json=str(google_account_json))
                 db.session.add(user_try_to_login)

@@ -1,4 +1,4 @@
-from flask import Blueprint,render_template,redirect,current_app,request,flash,url_for
+from flask import Blueprint,render_template,redirect,current_app,request,flash,url_for,send_file
 from flask_login import login_required
 import pdfkit
 import platform
@@ -6,6 +6,7 @@ from app.models.models import Invoices,Company
 import json
 from base64 import b64encode
 from jinja2 import Template
+import io
 
 
 view_invoice_blueprint = Blueprint('view_invoice_blueprint', __name__)
@@ -15,6 +16,14 @@ view_invoice_blueprint = Blueprint('view_invoice_blueprint', __name__)
 # @login_required
 def view_invoice():
     try:
+
+        data = {}
+        id = request.args.get('id',None)
+        download_id = request.args.get('download_id',None)
+
+        if download_id:
+            id = download_id
+
         options = {
             'page-size': 'A4',
             "enable-local-file-access": ""
@@ -22,11 +31,6 @@ def view_invoice():
        
         configuration = pdfkit.configuration(
             wkhtmltopdf='/usr/bin/wkhtmltopdf')
-
-        data = {}
-
-        id = request.args.get('id',None)
-
 
         fetch_invoice = Invoices.query.filter(Invoices.id == id).first()
 
@@ -63,19 +67,34 @@ def view_invoice():
 
             }
             # Step 1: Read the HTML string from the file
-            with open('app/templates/view_invoice.html', 'r') as file:
+            with open('app/templates/invoice.html', 'r') as file:
                 html_string = file.read()
 
             # Render the template with data
             template = Template(html_string)
 
             html_out = template.render(context=context)
+
+
+
             # pdfkit.from_string(html_string, 'out.pdf',options=options,configuration=configuration,css=css)
             pdf_binary = pdfkit.from_string(html_out, False,options=options,configuration=configuration)
 
+            if 'download_id' in request.args:
+                # Create a file-like object from the PDF binary
+                pdf_stream = io.BytesIO(pdf_binary)
+        
+                # Send the file as a download
+                return send_file(pdf_stream, as_attachment=True, download_name=f"{data['customer_name']} ({data['invoice_date']}).pdf")
+
             output_pdf_base64 = b64encode(pdf_binary).decode('utf-8')
 
-            return render_template('view_invoice.html',context=context)
+            context_2 = {
+                "output_pdf_base64":output_pdf_base64,
+                "download_id":data['id'],
+            }
+
+            return render_template('view_invoice.html',context=context_2)
         else:
             return render_template("404.html")
 
