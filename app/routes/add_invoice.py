@@ -61,6 +61,13 @@ def add_invoice():
             try:
                 db.session.commit()
                 flash(f"{invoice_data['customer_name'][0]} Customer Invoice successfully added",'success')
+
+                save_and_print = request.form.get('save_and_print',None)
+
+                if save_and_print == "true":
+                    return redirect(f'/view_invoice?id={add_new_invoice_data.id}')
+
+
                 return redirect('add_invoice')
             except Exception as e:
                 flash(e,'danger')

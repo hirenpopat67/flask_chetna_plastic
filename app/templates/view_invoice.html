@@ -8,6 +8,8 @@
 </head>
 <body>
     <a href="/view_invoice?download_id={{context['download_id']}}"><input type="button" id="btnPreview" value="Download PDF Document" /></a>
+    <br><br>
+    <input type="button" id="btnPreview" value="Back" onclick="window.location.href='/all_invoices'"/>
     <hr />
     <div id="pdf_container">
     </div>
@@ -78,5 +80,39 @@ document.addEventListener("DOMContentLoaded", function() {
             return r.test(navigator.userAgent);
         }
     </script>
+
+
+<!-- Alerts Messeges  -->
+    
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+{% with messages = get_flashed_messages(with_categories=true) %} {% if
+messages %}
+{% for category, message in messages %}
+<div hidden id="messege_icon">{{category}}</div>
+<div hidden id="messege_title">{{ message }}</div>
+
+<script>
+Swal.fire({
+  toast: true,
+  icon: document.getElementById('messege_icon').innerText,
+  title: document.getElementById('messege_title').innerText,
+  animation: true,
+  position: 'center',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+});
+</script>
+
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+
 </body>
 </html>
