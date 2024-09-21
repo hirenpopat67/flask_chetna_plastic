@@ -15,7 +15,7 @@ def add_customer():
         if request.method == 'POST':
             customer_name = request.form.get('customer_name',None)
             customer_place = request.form.get('customer_place',None)
-            customer_mobile_no = request.form.get('customer_mobile_no',None)
+            customer_mobile_no = request.form.get('customer_mobile_no',None,type=int)
             customer_gst_no = request.form.get('customer_gst_no',None)
             customer_discount_percentage = request.form.get('customer_discount_percentage',None)
 
