@@ -20,6 +20,7 @@ def edit_invoice():
         fetch_invoice = Invoices.query.filter(Invoices.id == id).first()
 
         if request.method == 'POST':
+            action = request.form.get('action',None)
             invoice_data = request.form.to_dict(flat=False)
             validation_error = invoice_data_validator(invoice_data)
             if validation_error:
@@ -42,6 +43,10 @@ def edit_invoice():
                 try:
                     db.session.commit()
                     flash(f"{invoice_data['customer_name'][0]} Customer Invoice successfully updated",'success')
+
+                    if action == "update_and_print":
+                        return redirect(f'/view_invoice?id={fetch_invoice.id}')
+
                     return redirect('all_invoices')
                 except Exception as e:
                     flash(e,'danger')

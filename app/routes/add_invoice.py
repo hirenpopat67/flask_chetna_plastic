@@ -13,6 +13,8 @@ add_invoice_blueprint = Blueprint('add_invoice_blueprint', __name__)
 def add_invoice():
     try:
 
+        action = request.form.get('action',None)
+
         all_customers = Customers.query.order_by(Customers.customer_name).all()
 
         fetch_invoice_no = Invoices.query.order_by(Invoices.invoice_no.desc()).first()
@@ -62,9 +64,7 @@ def add_invoice():
                 db.session.commit()
                 flash(f"{invoice_data['customer_name'][0]} Customer Invoice successfully added",'success')
 
-                save_and_print = request.form.get('save_and_print',None)
-
-                if save_and_print == "true":
+                if action == "save_and_print":
                     return redirect(f'/view_invoice?id={add_new_invoice_data.id}')
 
 
