@@ -37,7 +37,7 @@ All Invoices
   <ul class="pagination justify-content-end">
 
     <div class="btn-toolbar mb-2 mb-md-0">
-      <select class="form-select form-select-sm me-3" aria-label="Select number of items per page"
+      <select class="form-select form-select-sm me-2" aria-label="Select number of items per page"
               onchange="window.location.href=this.value;">
         <!-- Change the URL dynamically when the user selects an option -->
         <option value="/all_invoices?per_page=25" {% if request.args.get('per_page', 25) == '25' %}selected{% endif %}>25</option>
