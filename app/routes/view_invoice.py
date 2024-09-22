@@ -92,6 +92,8 @@ def view_invoice():
             context_2 = {
                 "output_pdf_base64":output_pdf_base64,
                 "download_id":data['id'],
+                "customer_name":data['customer_name'],
+                "fetch_company_details":fetch_company_details,
             }
 
             return render_template('view_invoice.html',context=context_2)
