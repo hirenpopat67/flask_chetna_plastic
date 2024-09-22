@@ -23,18 +23,62 @@ All Invoices
   </div>
 
   
-{% if data|length == 0 %}
+{% if context['data_items']|length == 0 %}
 <center><h1>No Invoice Found</h1></center>
 
   {% else %}
 
 <center><h2>All Invoices</h2></center>
 <br>
+
+<!-- Navigation section for pagination controls -->
+<nav aria-label="Page navigation example">
+  
+  <ul class="pagination justify-content-end">
+
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <select class="form-select form-select-sm me-3" aria-label="Select number of items per page"
+              onchange="window.location.href=this.value;">
+        <!-- Change the URL dynamically when the user selects an option -->
+        <option value="/all_invoices?per_page=25" {% if request.args.get('per_page', 25) == '25' %}selected{% endif %}>25</option>
+        <option value="/all_invoices?per_page=50" {% if request.args.get('per_page') == '50' %}selected{% endif %}>50</option>
+        <option value="/all_invoices?per_page=75" {% if request.args.get('per_page') == '75' %}selected{% endif %}>75</option>
+        <option value="/all_invoices?per_page=100" {% if request.args.get('per_page') == '100' %}selected{% endif %}>100</option>
+      </select>
+    </div>
+
+    <!-- Previous page button -->
+    <li class="page-item {% if not context.pagination.has_prev %}disabled{% endif %}">
+      <a class="page-link" href="{% if context.pagination.has_prev %}/all_invoices?page={{ context.pagination.prev_num }}{% else %}#{% endif %}">Previous</a>
+    </li>
+
+    <!-- Loop through the number of pages to display a link for each -->
+    {% for page_num in context.pagination.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+      {% if page_num %}
+        <!-- Check for the active page and set the link to "Active" -->
+        <li class="page-item {% if context.pagination.page == page_num %}active{% endif %}">
+          <a class="page-link" href="/all_invoices?page={{ page_num }}">{{ page_num }}</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+      {% endif %}
+    {% endfor %}
+
+    <!-- Next page button -->
+    <li class="page-item {% if not context.pagination.has_next %}disabled{% endif %}">
+      <a class="page-link" href="{% if context.pagination.has_next %}/all_invoices?page={{ context.pagination.next_num }}{% else %}#{% endif %}">Next</a>
+    </li>
+
+  </ul>
+</nav>
+
+
 <div class="table-responsive-sm">
 
   <table class="table table-bordered border-primary">
       <thead class="table-secondary">
         <tr>
+          <th>Sr No.</th>
           <th>Invoice No.</th>
           <th>Date</th>
           <th>Customer Name</th>
@@ -47,11 +91,12 @@ All Invoices
       </thead>
       <tbody>
 
-        {% for item in data %}
+        {% for item in context['data_items'] %}
 
         <tr>
-          <td>{{item.invoice_no}}</td>
-          <td>{{item.invoice_date if item.invoice_date != 'None'}}</td>
+          <td>{{loop.index}}</td>
+          <td><strong>{{item.invoice_no}}</strong></td>
+          <td>{{item.invoice_date if item.invoice_date != None}}</td>
           <td>{{item.customer_name}}</td>
           <td>{{item.customer_place}}</td>
           <td><strong>{{ item.invoice_json['total_amount'] | default('') }} ₹</strong></td>
