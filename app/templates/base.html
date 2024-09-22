@@ -227,6 +227,14 @@
   </a>
   <!-- <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="/">{{ fetch_company_details.company_name }}</a> -->
 
+  <!-- Search Box -->
+  <form class="d-flex" role="search"  onsubmit="return false;">
+    <input class="form-control me-2" type="search" id="generalsearchbox" placeholder="Search..." aria-label="Search" 
+      style="border: 2px solid white; border-radius: 4px; box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); transition: border 0.3s, box-shadow 0.3s;"
+      onfocus="this.style.border='2px solid #f44336'; this.style.boxShadow='0 0 8px rgba(244, 67, 54, 0.7)';" 
+      onblur="this.style.border='2px solid white'; this.style.boxShadow='0 0 5px rgba(255, 255, 255, 0.5)';">
+  </form>
+
   {% if current_user.is_authenticated %}
 <div class="navbar-brand dropdown">
   <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="#">
@@ -258,11 +266,11 @@
   {% endif %}
 
   <ul class="navbar-nav flex-row d-md-none">
-    <li class="nav-item text-nowrap">
+    <!-- <li class="nav-item text-nowrap">
       <button class="nav-link px-3 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSearch" aria-controls="navbarSearch" aria-expanded="false" aria-label="Toggle search">
         <svg class="bi"><use xlink:href="#search"/></svg>
       </button>
-    </li>
+    </li> -->
     <li class="nav-item text-nowrap">
       <button class="nav-link px-3 text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
         <svg class="bi"><use xlink:href="#list"/></svg>
@@ -467,6 +475,56 @@
    {% endfor %}
    {% endif %}
    {% endwith %}
+
+
+ <!-- generalsearchbox js -->
+<script>
+
+  // search function 
+  // All column
+  var searchBox_3 = document.getElementById("generalsearchbox");
+  searchBox_3.addEventListener("keyup", function() {
+      // Split the input into keywords
+      var keywords = this.value.split(" ").map(function(word) {
+          return word.toUpperCase();
+      });
+  
+      var table_3 = document.getElementById("table_search");
+      var all_tr = table_3.getElementsByTagName("tr");
+  
+      for (var i = 0; i < all_tr.length; i++) {
+          // Skip the header row (usually the first row)
+          if (i === 0) {
+              all_tr[i].style.display = ""; // Show the header
+              continue;
+          }
+  
+          var all_columns = all_tr[i].getElementsByTagName("td");
+          var rowMatches = false;
+  
+          for (var j = 0; j < all_columns.length; j++) {
+              if (all_columns[j]) {
+                  var column_value = all_columns[j].textContent || all_columns[j].innerText;
+                  column_value = column_value.toUpperCase();
+  
+                  // Check if any keyword matches
+                  if (keywords.some(function(keyword) {
+                      return column_value.indexOf(keyword) > -1;
+                  })) {
+                      rowMatches = true; // At least one match found in this row
+                      break;
+                  }
+              }
+          }
+  
+          // Show or hide the row based on matches
+          all_tr[i].style.display = rowMatches ? "" : "none"; // show or hide
+      }
+  });
+  
+  </script>
+  
+  
 
 <script src="../static/assets/dist/js/bootstrap.bundle.min.js"></script>
 
