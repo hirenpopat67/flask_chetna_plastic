@@ -8,3 +8,4 @@ instance
 *db
 *.csr
 *.pem
+*.xlsx
