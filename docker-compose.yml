@@ -13,8 +13,7 @@ services:
     restart: unless-stopped
     ports: ["5432:5432"]
     volumes: ["postgres-storage:/var/lib/postgresql/data"]
-    env_file:
-      - path: ./.env
+    env_file: ./.env
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -22,8 +21,7 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4:latest
-    env_file:
-      - path: ./.env
+    env_file: ./.env
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
