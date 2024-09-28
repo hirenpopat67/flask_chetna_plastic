@@ -58,7 +58,7 @@ login_manager.login_view = 'login_blueprint.login'
 
 def register_blueprints(app):
 
-    folder_list = ['routes']
+    folder_list = ['routes','helpers']
 
     for folder in folder_list:
     

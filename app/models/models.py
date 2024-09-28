@@ -10,7 +10,7 @@ class Customers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     customer_name = db.Column(db.Text)
     customer_place = db.Column(db.Text)
-    mobile_no = db.Column(db.Integer)
+    mobile_no = db.Column(db.Text)
     discount_percentage = db.Column(db.Integer)
     gst_no = db.Column(db.Text)
     date_time_added = db.Column(db.DateTime, default=datetime.utcnow)
