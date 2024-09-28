@@ -44,7 +44,9 @@ def initialize_database():
 def login():
     try:
 
-        return render_template('login.html')
+        fetch_company_details = Company.query.first()
+
+        return render_template('login.html',fetch_company_details=fetch_company_details)
 
     except Exception as e:
         current_app.logger.error(f"{str(e)} WHICH_API = {request.path}", exc_info=True)
