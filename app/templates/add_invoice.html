@@ -136,14 +136,25 @@ Add Invoice
                 <td colspan="4" class="text-right"><strong>TOTAL (₹)</strong></td>
                 <td><input type="number" style="width: fit-content" id="total_amount" name="total_amount" class="form-control border-secondary" readonly></td>
               </tr>
+
               <tr>
+                
+                <td colspan="5">
+                  <input type="checkbox" name="include_gst_checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off" onchange="toggleGSTRows()">
+                  <label class="btn btn-outline-warning" for="btn-check-outlined">Include GST (18%)</label><br>
+                </td>
+              </tr>
+
+              <!-- Rows to be toggled -->
+              <tr id="gst-row" style="display:none;">
                 <td colspan="4" class="text-right"><strong>GST (₹)</strong></td>
                 <td><input type="number" style="width: fit-content" id="gst_amount" name="gst_amount" class="form-control border-secondary" readonly></td>
               </tr>
-              <tr>
-                <td colspan="4" class="text-right"><strong>	FINAL BILL (₹)</strong></td>
+              <tr id="final-bill-row" style="display:none;">
+                <td colspan="4" class="text-right"><strong>FINAL BILL (₹)</strong></td>
                 <td><input type="number" style="width: fit-content" id="final_amount" name="final_amount" class="form-control border-secondary" readonly></td>
               </tr>
+
 
             </table>
           </div>

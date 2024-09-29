@@ -1,6 +1,6 @@
 from app import db
 from datetime import datetime
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import JSONB,BOOLEAN
 from flask_login import UserMixin
 
 class Customers(db.Model):
@@ -35,6 +35,7 @@ class Invoices(db.Model):
     customer_place = db.Column(db.Text)
     invoice_date  = db.Column(db.Date)
     invoice_json = db.Column(db.Text)
+    is_gst = db.Column(BOOLEAN, default=False)
     date_time_added = db.Column(db.DateTime, default=datetime.now())
 
 class Users(UserMixin,db.Model):

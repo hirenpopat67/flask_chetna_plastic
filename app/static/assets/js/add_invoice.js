@@ -25,36 +25,29 @@ function setup_invoice_rows() {
 }
 
 
-// // Fetching Customer Details ===================================================
+// JavaScript to toggle visibility
 
-// function fetch_customer_details_by_name() {
-//     // this is the name from ((Input)) with datalist
-//     var DeptValue = document.getElementById('customer_name');
+function toggleGSTRows() {
+    var isChecked = document.getElementById("btn-check-outlined").checked;
     
-//     // // Adding Event Listener to get the value	
-//     DeptValue.addEventListener('input', function () {
-//         var customerName = DeptValue.value;
-//         // Check if customer name is not empty
-//         if (customerName.trim() !== "") {
-//             $.get(`/get_single_customer/${customerName}`,
-//                 function (data) {
+    // Get the rows by their IDs
+    var gstRow = document.getElementById("gst-row");
+    var finalBillRow = document.getElementById("final-bill-row");
+    
+    // Toggle visibility based on checkbox state
+    if (isChecked) {
+        gstRow.style.display = '';
+        finalBillRow.style.display = '';
+    } else {
+        gstRow.style.display = 'none';
+        finalBillRow.style.display = 'none';
+    }
+}
 
-//                     $("#customer_place").val(data["customer_place"]);
-//                     $("#customer_mobile_no").val(data["mobile_no"]);
-//                     $("#customer_gst_no").val(data["gst_no"]);
-//                     $("#discount_percentage").val(data["discount_percentage"]);
-//                 });
-//         } else {
-//             // Handle the case when the customer name is none or empty
-//             // console.log("Customer name is none or empty.");
-//             // You may want to reset or clear the other fields in this case
-//             $("#customer_place").val("");
-//             $("#customer_mobile_no").val("");
-//             $("#customer_gst_no").val("");
-//             $("#discount_percentage").val("");
-//         }
-//     });
-// }
+// Call the function on page load to check initial checkbox state
+document.addEventListener("DOMContentLoaded", function() {
+    toggleGSTRows();
+});
 
 
 function fetch_customer_details_by_name() {
@@ -243,83 +236,3 @@ $(document).ready(function() {
 function convertToUpperCase(input) {
     input.value = input.value.toUpperCase();
 }
-// document.getElementById('save').addEventListener('click', function() {
-//   // Get form data for array of objects
-//   const formData = {
-//     customer_name: document.getElementsByName('customer_name')[0].value,
-//     customer_place: document.getElementsByName('customer_place')[0].value,
-//     customer_mobile_no: document.getElementsByName('customer_mobile_no')[0].value,
-//     customer_gst_no: document.getElementsByName('customer_gst_no')[0].value,
-//     parcel_details: document.getElementsByName('parcel_details')[0].value,
-//     total_parcel: document.getElementsByName('total_parcel')[0].value,
-//     invoice_number: document.getElementsByName('invoice_number')[0].value,
-//     invoice_date: document.getElementsByName('invoice_date')[0].value,
-//     sub_total_amount: document.getElementsByName('sub_total_amount')[0].value,
-//     discount_percentage: document.getElementsByName('discount_percentage')[0].value,
-//     discount_amount: document.getElementsByName('discount_amount')[0].value,
-//     total_amount: document.getElementsByName('total_amount')[0].value,
-//     gst_amount: document.getElementsByName('gst_amount')[0].value,
-//     final_amount: document.getElementsByName('final_amount')[0].value,
-//     productDetails: []
-// };
-// console.log(formData.customer_name)
-
-//   // Get array of product_name inputs
-//   const productNames = document.getElementsByName('product_name');
-//   // Get array of qty inputs
-//   const quantities = document.getElementsByName('qty');
-//   // Get array of product_price inputs
-//   const prices = document.getElementsByName('product_price');
-//   // Get array of total_price_amount inputs
-//   const totalAmounts = document.getElementsByName('total_price_amount');
-
-//    // Flag to check if any field is empty or null
-//    let isValid = true;
-
-//   // Loop through the arrays and create objects for each product
-//   for (let i = 0; i < productNames.length; i++) {
-//     const productObject = {
-//       product_name: productNames[i].value,
-//       qty: quantities[i].value,
-//       product_price: prices[i].value,
-//       total_price_amount: totalAmounts[i].value
-//     };
-
-//      // Check if any field is empty or null
-//      if (!productObject.product_name || !productObject.qty || !productObject.product_price || !productObject.total_price_amount || !formData.customer_name) {
-//         isValid = false;
-//         break;
-//       }
-//     formData.productDetails.push(productObject);
-//     console.log(formData.productDetails)
-//   }
-
-
-//     // If any field is empty or null, do not proceed with the API call
-//     if (!isValid) {
-//         console.error('Please fill in all fields');
-//         return;
-//       }
-    
-
-//   // Make a POST request to Flask backend
-//   fetch('/add_invoice', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(formData),
-//   })
-//   .then(response)
-//   .then(data => {
-//     // Handle the response from the server
-//     console.log('Response from server:', data);
-
-//     // Redirect to the add_invoice route
-//     window.location.href = '/all_invoices';
-//   })
-//   .catch(error => {
-//     console.error('Error:', error);
-//   });
-  
-// });

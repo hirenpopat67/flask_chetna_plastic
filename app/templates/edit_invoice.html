@@ -132,14 +132,22 @@ Edit Invoice
                 <td colspan="4" class="text-right"><strong>TOTAL (₹)</strong></td>
                 <td><input type="number"  value="{{context.data.invoice_json['total_amount']}}" style="width: fit-content" id="total_amount" name="total_amount" class="form-control border-secondary" readonly></td>
               </tr>
-              <tr>
-                <td colspan="4" class="text-right"><strong>GST (₹)</strong></td>
-                <td><input type="number"  value="{{context.data.invoice_json['gst_amount']}}" style="width: fit-content" id="gst_amount" name="gst_amount" class="form-control border-secondary" readonly></td>
-              </tr>
-              <tr>
-                <td colspan="4" class="text-right"><strong>	FINAL BILL (₹)</strong></td>
-                <td><input type="number"  value="{{context.data.invoice_json['final_amount']}}" style="width: fit-content" id="final_amount" name="final_amount" class="form-control border-secondary" readonly></td>
-              </tr>
+
+              <td colspan="5">
+                <input type="checkbox" name="include_gst_checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off" onchange="toggleGSTRows()" {% if context.data['is_gst'] == true %} checked {% endif %}>
+                <label class="btn btn-outline-warning" for="btn-check-outlined">Include GST (18%)</label><br>
+              </td>
+            </tr>
+
+            <!-- Rows to be toggled -->
+            <tr id="gst-row" style="display:none;">
+              <td colspan="4" class="text-right"><strong>GST (₹)</strong></td>
+              <td><input type="number" style="width: fit-content" value="{{context.data.invoice_json['gst_amount']}}" id="gst_amount" name="gst_amount" class="form-control border-secondary" readonly></td>
+            </tr>
+            <tr id="final-bill-row" style="display:none;">
+              <td colspan="4" class="text-right"><strong>FINAL BILL (₹)</strong></td>
+              <td><input type="number" style="width: fit-content" value="{{context.data.invoice_json['final_amount']}}" id="final_amount" name="final_amount" class="form-control border-secondary" readonly></td>
+            </tr>
 
             </table>
           </div>

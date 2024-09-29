@@ -48,14 +48,24 @@ def add_invoice():
             
              # save invoice
             
+            try:
+                include_gst_checkbox = invoice_data['include_gst_checkbox'][0]
+                is_gst = True
+            except:
+                    invoice_data_processed.update({'gst_amount':'0.00','final_amount':invoice_data_processed['total_amount']})
+                    is_gst = False
 
             invoice_data_processed_json = json.dumps(invoice_data_processed)
+
+            print("invoice_data_processed_json> ",invoice_data_processed_json)
+
             add_new_invoice_data = Invoices(
                 invoice_no = invoice_data['invoice_number'][0],
                 customer_name = invoice_data['customer_name'][0],
                 customer_place = invoice_data['customer_place'][0],
                 invoice_date = datetime.strptime(invoice_data['invoice_date'][0], '%Y-%m-%d'),
-                invoice_json = invoice_data_processed_json
+                invoice_json = invoice_data_processed_json,
+                is_gst = is_gst,
             )
 
             db.session.add(add_new_invoice_data)

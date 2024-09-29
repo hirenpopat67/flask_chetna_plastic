@@ -30,6 +30,13 @@ def edit_invoice():
             invoice_data_processed = invoice_data_processor(invoice_data)
             
             # save invoice
+
+            try:
+                include_gst_checkbox = invoice_data['include_gst_checkbox'][0]
+                is_gst = True
+            except:
+                    invoice_data_processed.update({'gst_amount':'0.00','final_amount':invoice_data_processed['total_amount']})
+                    is_gst = False
             
             invoice_data_processed_json = json.dumps(invoice_data_processed)
 
@@ -39,6 +46,7 @@ def edit_invoice():
                 fetch_invoice.customer_place = invoice_data['customer_place'][0]
                 fetch_invoice.invoice_date = datetime.strptime(invoice_data['invoice_date'][0], '%Y-%m-%d')
                 fetch_invoice.invoice_json = invoice_data_processed_json
+                fetch_invoice.is_gst = is_gst
 
                 try:
                     db.session.commit()
