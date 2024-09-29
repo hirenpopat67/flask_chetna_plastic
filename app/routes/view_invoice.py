@@ -13,7 +13,7 @@ view_invoice_blueprint = Blueprint('view_invoice_blueprint', __name__)
 
 
 @view_invoice_blueprint.route('/view_invoice')
-# @login_required
+@login_required
 def view_invoice():
     try:
 

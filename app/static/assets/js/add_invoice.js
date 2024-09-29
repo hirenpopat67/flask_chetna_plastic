@@ -25,34 +25,73 @@ function setup_invoice_rows() {
 }
 
 
-// Fetching Customer Details ===================================================
+// // Fetching Customer Details ===================================================
+
+// function fetch_customer_details_by_name() {
+//     // this is the name from ((Input)) with datalist
+//     var DeptValue = document.getElementById('customer_name');
+    
+//     // // Adding Event Listener to get the value	
+//     DeptValue.addEventListener('input', function () {
+//         var customerName = DeptValue.value;
+//         // Check if customer name is not empty
+//         if (customerName.trim() !== "") {
+//             $.get(`/get_single_customer/${customerName}`,
+//                 function (data) {
+
+//                     $("#customer_place").val(data["customer_place"]);
+//                     $("#customer_mobile_no").val(data["mobile_no"]);
+//                     $("#customer_gst_no").val(data["gst_no"]);
+//                     $("#discount_percentage").val(data["discount_percentage"]);
+//                 });
+//         } else {
+//             // Handle the case when the customer name is none or empty
+//             // console.log("Customer name is none or empty.");
+//             // You may want to reset or clear the other fields in this case
+//             $("#customer_place").val("");
+//             $("#customer_mobile_no").val("");
+//             $("#customer_gst_no").val("");
+//             $("#discount_percentage").val("");
+//         }
+//     });
+// }
+
 
 function fetch_customer_details_by_name() {
-    // this is the name from ((Input)) with datalist
-    var DeptValue = document.getElementById('customer_name');
-    
-    // // Adding Event Listener to get the value	
-    DeptValue.addEventListener('input', function () {
-        var customerName = DeptValue.value;
-        // Check if customer name is not empty
-        if (customerName.trim() !== "") {
-            $.get(`/get_single_customer/${customerName}`,
-                function (data) {
+    var selectBox = document.getElementById('customer_name');
 
-                    $("#customer_place").val(data["customer_place"]);
-                    $("#customer_mobile_no").val(data["mobile_no"]);
-                    $("#customer_gst_no").val(data["gst_no"]);
-                    $("#discount_percentage").val(data["discount_percentage"]);
-                });
-        } else {
-            // Handle the case when the customer name is none or empty
-            // console.log("Customer name is none or empty.");
-            // You may want to reset or clear the other fields in this case
-            $("#customer_place").val("");
-            $("#customer_mobile_no").val("");
-            $("#customer_gst_no").val("");
-            $("#discount_percentage").val("");
+    // Adding Event Listener for change event
+    selectBox.addEventListener('change', function () {
+        var selectedOption = selectBox.options[selectBox.selectedIndex];
+
+        // Get the customer name from the option value (only customer name, not place)
+        var customerName = selectedOption.value;
+
+        var customerPlace = selectedOption.getAttribute('data-place');
+        var customerMobile = selectedOption.getAttribute('data-mobile');
+        var customerGst = selectedOption.getAttribute('data-gst');
+        var discountPercentage = selectedOption.getAttribute('data-discount');
+
+        // Helper function to validate and set the value correctly
+        function setValidFieldValue(fieldId, value) {
+            var field = document.getElementById(fieldId);
+            // If the value is null, undefined, or "None", set it to an empty string
+            if (value === null || value === undefined || value === "None") {
+                field.value = "";
+            } else {
+                field.value = value;
+            }
         }
+
+
+        // After selecting, update the select box to only display the customer name
+        selectBox.options[selectBox.selectedIndex].text = customerName;
+
+        // Set the respective fields using the helper function to avoid invalid values
+        setValidFieldValue("customer_place", customerPlace);
+        setValidFieldValue("customer_mobile_no", customerMobile);
+        setValidFieldValue("customer_gst_no", customerGst);
+        setValidFieldValue("discount_percentage", discountPercentage);
     });
 }
 

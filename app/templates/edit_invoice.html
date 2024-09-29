@@ -21,15 +21,22 @@ Edit Invoice
           
           <div class="col-md-6 form-floating">
             
-            <input type="text" class="form-control" value="{{context.data.customer_name}}" name="customer_name" id="customer_name" placeholder="Customer Name" autocomplete="off" list="customer_names"required>
+            <!-- <input type="text" class="form-control" value="{{context.data.customer_name}}" name="customer_name" id="customer_name" placeholder="Customer Name" autocomplete="off" list="customer_names"required> -->
 
-                  <!-- <select name="select_box" class="form-select" name="customer_name"  id="customer_name" >
-                    <option value=""></option>
-                    {% for x in context.all_customers %}
-                    <option value="{{x.customer_name}}" data-subtext="{{x.customer_place}}">{{x.customer_name}}</option>
-                    {% endfor %}
-                  </select> -->
-                  <label for="floatingPassword">Customer Name</label>
+            <select data-live-search="true" name="customer_name" class="form-select" id="customer_name">
+              <option selected value="{{context.data.customer_name}}">{{context.data.customer_name}}</option>
+              {% for x in context.all_customers %}
+                  <option value="{{x.customer_name}}" 
+                          data-place="{{x.customer_place}}"
+                          data-mobile="{{x.mobile_no}}"
+                          data-gst="{{x.gst_no}}"
+                          data-discount="{{x.discount_percentage}}">
+                          {{x.customer_name}} - {{x.customer_place}}
+                  </option>
+              {% endfor %}
+          </select>
+          <label for="customer_name">Customer Name</label>
+
           </div>
 
           <datalist id="customer_names">
