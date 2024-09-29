@@ -54,6 +54,10 @@ def edit_invoice():
 
                     if action == "update_and_print":
                         return redirect(f'/view_invoice?id={fetch_invoice.id}')
+                    
+                    if is_gst:
+                        return redirect('all_gst_invoices')
+
 
                     return redirect('all_invoices')
                 except Exception as e:

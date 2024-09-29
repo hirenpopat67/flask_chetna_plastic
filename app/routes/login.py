@@ -86,11 +86,11 @@ def google_auth():
     email = google_account_json.get('email',None)
     name = google_account_json.get('name',None)
 
-    ADMIN_EMAILS = os.getenv('ADMIN_EMAILS',None)
+    ADMIN_EMAIL = os.getenv('ADMIN_EMAIL',None)
 
     # Convert the string to a list if it's not None
-    if ADMIN_EMAILS:
-        ADMIN_EMAIL_LIST = ADMIN_EMAILS.split(',')
+    if ADMIN_EMAIL:
+        ADMIN_EMAIL_LIST = ADMIN_EMAIL.split(',')
     else:
         ADMIN_EMAIL_LIST = []
 

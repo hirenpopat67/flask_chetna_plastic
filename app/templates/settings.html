@@ -63,13 +63,15 @@ Settings
 <div class="container">
     <center><h2>Company info</h2></center>
     <br>
+
+    <form action="/settings" method="POST" enctype="multipart/form-data">
   
     <div class="card">
       <div class="card-header">
           Basic info
           <blockquote class="blockquote mb-0">
             <p></p>
-            <footer class="blockquote-footer">You can edit <cite title="Source Title">Company Info</cite></footer>
+            <footer class="blockquote-footer">Admin can edit <cite title="Source Title">Company Info</cite></footer>
           </blockquote>
       </div>
       <div class="card-body">
@@ -77,14 +79,14 @@ Settings
         <div class="mb-3 row">
             <label for="inputPassword" class="col-sm-2 col-form-label">Name</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" value="{{ fetch_company_details.company_name }}" id="inputPassword">
+              <input type="text" name="company_name" class="form-control" value="{{ context.fetch_company_details.company_name }}" id="inputPassword" {% if context.ADMIN_EMAIL == current_user['email'] %} {% else %} readonly {% endif%}>
             </div>
           </div>
   
         <div class="mb-3 row">
             <label for="inputPassword" class="col-sm-2 col-form-label">GST No.</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" value="{{ fetch_company_details.company_gst_no }}" id="inputPassword">
+              <input type="text" name="company_gst_no" class="form-control" value="{{ context.fetch_company_details.company_gst_no }}" id="inputPassword" {% if context.ADMIN_EMAIL == current_user['email'] %} {% else %} readonly {% endif%}>
             </div>
           </div>
 
@@ -93,8 +95,12 @@ Settings
             <div class="col-sm-10">
 
                 <div class="card" style="width: 18rem;">
-                    <img src="data:image/x-icon;base64,{{ fetch_company_details.company_logo }}" class="card-img-top" alt="...">
-                      <input class="btn btn-outline-primary" type="file" value="Upload New">
+                    <img src="data:image/x-icon;base64,{{ context.fetch_company_details.company_logo }}" class="card-img-top" alt="...">
+
+                    {% if context.ADMIN_EMAIL == current_user['email'] %}
+                    <input class="btn btn-outline-primary" type="file" name="company_logo_file" value="Upload New">
+                      
+                      {% endif%}
                     <!-- <div class="card-body">
                       <p class="card-text">A picture helps people recognize you and lets you know when you’re signed in to your account</p>
                     </div> -->
@@ -107,7 +113,10 @@ Settings
             <div class="col-sm-10">
 
                 <div class="card" style="width: 18rem;">
-                    <img src="data:image/x-icon;base64,{{ fetch_company_details.company_favicon }}" class="card-img-top" alt="..."><input class="btn btn-outline-primary" type="file" value="Upload New">
+                    <img src="data:image/x-icon;base64,{{ context.fetch_company_details.company_favicon }}" class="card-img-top" alt="...">
+                    {% if context.ADMIN_EMAIL == current_user['email'] %}
+                    <input class="btn btn-outline-primary" type="file" name="company_favicon_file" value="Upload New">
+                    {% endif%}
                     <!-- <div class="card-body">
                       <p class="card-text">A picture helps people recognize you and lets you know when you’re signed in to your account</p>
                     </div> -->
@@ -118,8 +127,12 @@ Settings
          
       </div>
       <!-- card-body div end  -->
-  
-      <button type="button" class="btn btn-primary">Update</button>
+
+      {% if context.ADMIN_EMAIL == current_user['email'] %} 
+      <button type="submit" class="btn btn-primary"  >Update</button>
+       
+  {% endif %}
+</form>
 
     </div>
     <!-- card div end  -->

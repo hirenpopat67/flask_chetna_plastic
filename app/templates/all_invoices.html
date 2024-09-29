@@ -89,7 +89,7 @@ All Invoices
           <th>Date</th>
           <th>Customer Name</th>
           <th>Customer Place</th>
-          <th>Total Amount (₹)</th>
+          <th>Sub Total Amount (₹)</th>
           <th>Discount Amount (₹)</th>
           <th>Final Bill Amount (₹)</th>
           <th>Actions</th>
@@ -105,9 +105,14 @@ All Invoices
           <td>{{item.invoice_date if item.invoice_date != None}}</td>
           <td>{{item.customer_name}}</td>
           <td>{{item.customer_place}}</td>
-          <td><strong>{{ item.invoice_json['total_amount'] | default('') }} ₹</strong></td>
-          <td>{{ item.invoice_json['discount_amount'] | default(0.00) }} ₹ <br>
-            ({{ item.invoice_json['discount_percentage'] | default('') }} %)</td>
+          <td><strong>{{ item.invoice_json['sub_total_amount'] | default('') }} ₹</strong></td>
+          <td>{% if item.invoice_json['discount_amount'] == '0.00' %} ---- {% else %} 
+            
+            {{ item.invoice_json['discount_amount'] }} ₹ <br>
+            ({{ item.invoice_json['discount_percentage'] }} %)
+            {% endif %}
+            
+            </td>
           <td><strong>{{ item.invoice_json['final_amount'] | default('') }} ₹</strong></td>
 
           <td>

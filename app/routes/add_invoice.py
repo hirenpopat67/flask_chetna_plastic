@@ -77,7 +77,9 @@ def add_invoice():
                 if action == "save_and_print":
                     return redirect(f'/view_invoice?id={add_new_invoice_data.id}')
 
-
+                if is_gst:
+                    return redirect('all_gst_invoices')
+                    
                 return redirect('add_invoice')
             except Exception as e:
                 flash(e,'danger')

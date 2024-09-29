@@ -107,8 +107,15 @@ All GST Invoices
           <td>{{item.customer_name}}</td>
           <td>{{item.customer_place}}</td>
           <td><strong>{{ item.invoice_json['total_amount'] | default('') }} ₹</strong></td>
-          <td>{{ item.invoice_json['discount_amount'] | default(0.00) }} ₹ <br>
-            ({{ item.invoice_json['discount_percentage'] | default('') }} %)</td>
+
+          <td>{% if item.invoice_json['discount_amount'] == '0.00' %} ---- {% else %} 
+            
+            {{ item.invoice_json['discount_amount'] }} ₹ <br>
+            ({{ item.invoice_json['discount_percentage'] }} %)
+            {% endif %}
+            
+            </td>
+         
           <td>{{ item.invoice_json['gst_amount'] | default(0.00) }} ₹ <br>
             (18 %)</td>
           <td><strong>{{ item.invoice_json['final_amount'] | default('') }} ₹</strong></td>
