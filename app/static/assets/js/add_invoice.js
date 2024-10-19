@@ -50,43 +50,43 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-function fetch_customer_details_by_name() {
-    var selectBox = document.getElementById('customer_name');
+// function fetch_customer_details_by_name() {
+//     var selectBox = document.getElementById('customer_name');
 
-    // Adding Event Listener for change event
-    selectBox.addEventListener('change', function () {
-        var selectedOption = selectBox.options[selectBox.selectedIndex];
+//     // Adding Event Listener for change event
+//     selectBox.addEventListener('change', function () {
+//         var selectedOption = selectBox.options[selectBox.selectedIndex];
 
-        // Get the customer name from the option value (only customer name, not place)
-        var customerName = selectedOption.value;
+//         // Get the customer name from the option value (only customer name, not place)
+//         var customerName = selectedOption.value;
 
-        var customerPlace = selectedOption.getAttribute('data-place');
-        var customerMobile = selectedOption.getAttribute('data-mobile');
-        var customerGst = selectedOption.getAttribute('data-gst');
-        var discountPercentage = selectedOption.getAttribute('data-discount');
+//         var customerPlace = selectedOption.getAttribute('data-place');
+//         var customerMobile = selectedOption.getAttribute('data-mobile');
+//         var customerGst = selectedOption.getAttribute('data-gst');
+//         var discountPercentage = selectedOption.getAttribute('data-discount');
 
-        // Helper function to validate and set the value correctly
-        function setValidFieldValue(fieldId, value) {
-            var field = document.getElementById(fieldId);
-            // If the value is null, undefined, or "None", set it to an empty string
-            if (value === null || value === undefined || value === "None") {
-                field.value = "";
-            } else {
-                field.value = value;
-            }
-        }
+//         // Helper function to validate and set the value correctly
+//         function setValidFieldValue(fieldId, value) {
+//             var field = document.getElementById(fieldId);
+//             // If the value is null, undefined, or "None", set it to an empty string
+//             if (value === null || value === undefined || value === "None") {
+//                 field.value = "";
+//             } else {
+//                 field.value = value;
+//             }
+//         }
 
 
-        // After selecting, update the select box to only display the customer name
-        selectBox.options[selectBox.selectedIndex].text = customerName;
+//         // After selecting, update the select box to only display the customer name
+//         selectBox.options[selectBox.selectedIndex].text = customerName;
 
-        // Set the respective fields using the helper function to avoid invalid values
-        setValidFieldValue("customer_place", customerPlace);
-        setValidFieldValue("customer_mobile_no", customerMobile);
-        setValidFieldValue("customer_gst_no", customerGst);
-        setValidFieldValue("discount_percentage", discountPercentage);
-    });
-}
+//         // Set the respective fields using the helper function to avoid invalid values
+//         setValidFieldValue("customer_place", customerPlace);
+//         setValidFieldValue("customer_mobile_no", customerMobile);
+//         setValidFieldValue("customer_gst_no", customerGst);
+//         setValidFieldValue("discount_percentage", discountPercentage);
+//     });
+// }
 
 
 // Fetching Product Details ===================================================
@@ -216,7 +216,7 @@ $(document).ready(function() {
     setup_invoice_rows();
 
     // Initialize Fetch customer details
-    fetch_customer_details_by_name();
+    // fetch_customer_details_by_name();
     
     
     // Initialize Fetch product details
