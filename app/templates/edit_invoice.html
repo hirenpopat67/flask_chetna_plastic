@@ -6,11 +6,6 @@ Edit Invoice
 
 {% block body %}
 
-<!-- Styles For select with search dropdown using external library (display customer name)-->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
-
-
 <div class="container">
 <h1>Edit Invoice</h1>
 </div>
@@ -26,10 +21,10 @@ Edit Invoice
             
             <!-- <input type="text" class="form-control" value="{{context.data.customer_name}}" name="customer_name" id="customer_name" placeholder="Customer Name" autocomplete="off" list="customer_names"required> -->
 
-            <select data-live-search="true" name="customer_name" class="form-select" id="customer_name">
+            <select name="customer_name" class="form-select-lg chosen-select" id="customer_name"  data-placeholder="Choose Customer" required>
               <option selected value="{{context.data.customer_name}}">{{context.data.customer_name}}</option>
               {% for x in context.all_customers %}
-                  <option value="{{x.customer_name}}" 
+                  <option data-name="{{x.customer_name}}" value="{{x.customer_name}}" 
                           data-place="{{x.customer_place}}"
                           data-mobile="{{x.mobile_no}}"
                           data-gst="{{x.gst_no}}"
@@ -169,62 +164,39 @@ Edit Invoice
       </form>
 </div>
 
-<!-- <script>
-
-  var select_box_element = document.querySelector('#customer_name');
-
-  dselect(select_box_element, {
-      search: true
-  });
-
-</script> -->
-
-
-<!-- Scripts for select with search dropdown to search customer name-->
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
 
 <script>
-  $( '#customer_name' ).select2( {
-    theme: "bootstrap-5",
-    width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
-    placeholder: $( this ).data( 'placeholder' ),
-    allowClear: true,
-} );
+  // set customer data to respective inputs
+  $(document).ready(function() {
+$('#customer_name').change(function() {
+  // Get the selected option
+  const selectedOption = $(this).find("option:selected");
 
+  
+  // Get the customer details from the data attributes
+  var customerName = selectedOption.val();
+  var customerPlace = selectedOption.data('place');
+  var customerMobile = selectedOption.data('mobile');
+  var customerGst = selectedOption.data('gst');
+  var discountPercentage = selectedOption.data('discount');
 
-    // Adding the event listener directly in the initialization
-    $('#customer_name').on('select2:select', function (e) {
-    var selectedOption = e.params.data.element; // Get the selected option element
+  // Helper function to validate and set the value correctly
+  function setValidFieldValue(fieldId, value) {
+      var field = document.getElementById(fieldId);
+      // If the value is null, undefined, or "None", set it to an empty string
+      field.value = (value === null || value === undefined || value === "None") ? "" : value;
+  }
 
-    // Get the customer details from the data attributes
-    var customerName = selectedOption.value;
-    var customerPlace = $(selectedOption).data('place');
-    var customerMobile = $(selectedOption).data('mobile');
-    var customerGst = $(selectedOption).data('gst');
-    var discountPercentage = $(selectedOption).data('discount');
+  // Set the respective fields using the helper function
+  setValidFieldValue("customer_name", customerName);
+  setValidFieldValue("customer_place", customerPlace);
+  setValidFieldValue("customer_mobile_no", customerMobile);
+  setValidFieldValue("customer_gst_no", customerGst);
+  setValidFieldValue("discount_percentage", discountPercentage);
+})
 
-    // Helper function to validate and set the value correctly
-    function setValidFieldValue(fieldId, value) {
-        var field = document.getElementById(fieldId);
-        // If the value is null, undefined, or "None", set it to an empty string
-        if (value === null || value === undefined || value === "None") {
-            field.value = "";
-        } else {
-            field.value = value;
-        }
-    }
-
-    // Update the displayed text of the selected option
-selectedOption.outerHTML = `<option value="${selectedOption.value}" data-place="${selectedOption.getAttribute('data-place')}" data-mobile="${selectedOption.getAttribute('data-mobile')}" data-gst="${selectedOption.getAttribute('data-gst')}" data-discount="${selectedOption.getAttribute('data-discount')}">${customerName}</option>`;
-    
-    // Set the respective fields using the helper function
-    setValidFieldValue("customer_name", customerName);
-    setValidFieldValue("customer_place", customerPlace);
-    setValidFieldValue("customer_mobile_no", customerMobile);
-    setValidFieldValue("customer_gst_no", customerGst);
-    setValidFieldValue("discount_percentage", discountPercentage);
 });
-
+// set customer data to respective inputs
 </script>
 
 
