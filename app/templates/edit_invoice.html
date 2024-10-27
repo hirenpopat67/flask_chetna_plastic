@@ -21,10 +21,10 @@ Edit Invoice
             
             <!-- <input type="text" class="form-control" value="{{context.data.customer_name}}" name="customer_name" id="customer_name" placeholder="Customer Name" autocomplete="off" list="customer_names"required> -->
 
-            <select name="customer_name" class="form-select-lg chosen-select" id="customer_name"  data-placeholder="Choose Customer" required>
-              <option selected value="{{context.data.customer_name}}">{{context.data.customer_name}}</option>
+            <select name="customer_id" class="form-select-lg chosen-select" id="customer_name"  data-placeholder="Choose Customer" required>
+              <option selected value="{{context.data.customer_id}}">{{context.data.customer_name}}</option>
               {% for x in context.all_customers %}
-                  <option data-name="{{x.customer_name}}" value="{{x.customer_name}}" 
+                  <option data-name="{{x.customer_name}}" value="{{x.id}}" 
                           data-place="{{x.customer_place}}"
                           data-mobile="{{x.mobile_no}}"
                           data-gst="{{x.gst_no}}"
@@ -45,17 +45,17 @@ Edit Invoice
         </datalist>
 
           <div class="col-md-6 form-floating">
-            <input type="number" class="form-control" value="{{context.data.invoice_json['customer_mobile_no']}}" name="customer_mobile_no" id="customer_mobile_no" placeholder="Customer Mobile Number" readonly>
+            <input type="number" class="form-control" value="{{ context.data.mobile_no }}" id="customer_mobile_no" placeholder="Customer Mobile Number" readonly>
             <label for="floatingPassword">Customer Mobile Number</label>
           </div>
   
           <div class="col-md-6 form-floating">
-            <input type="text" class="form-control" value="{{context.data.customer_place}}" name="customer_place" id="customer_place" placeholder="Customer Place" readonly>
+            <input type="text" class="form-control" value="{{context.data.customer_place}}" id="customer_place" placeholder="Customer Place" readonly>
             <label for="floatingPassword">Customer Place</label>
           </div>
 
           <div class="col-md-6 form-floating">
-            <input type="text" class="form-control" value="{{context.data.invoice_json['customer_gst_no']}}" name="customer_gst_no" id="customer_gst_no" placeholder="Customer GST Number" readonly>
+            <input type="text" class="form-control" value="{{ context.data.gst_no }}" id="customer_gst_no" placeholder="Customer GST Number" readonly>
             <label for="floatingPassword">Customer GST Number</label>
         </div>
 
@@ -188,7 +188,7 @@ $('#customer_name').change(function() {
   }
 
   // Set the respective fields using the helper function
-  setValidFieldValue("customer_name", customerName);
+  // setValidFieldValue("customer_name", customerName);
   setValidFieldValue("customer_place", customerPlace);
   setValidFieldValue("customer_mobile_no", customerMobile);
   setValidFieldValue("customer_gst_no", customerGst);

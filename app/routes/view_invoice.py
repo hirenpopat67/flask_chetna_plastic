@@ -2,11 +2,12 @@ from flask import Blueprint,render_template,redirect,current_app,request,flash,u
 from flask_login import login_required
 import pdfkit
 import platform
-from app.models.models import Invoices,Company
+from app.models.models import Invoices,Company,Customers
 import json
 from base64 import b64encode
 from jinja2 import Template
 import io
+from app import db,fetch_value_or_none
 
 
 view_invoice_blueprint = Blueprint('view_invoice_blueprint', __name__)
@@ -32,22 +33,38 @@ def view_invoice():
         configuration = pdfkit.configuration(
             wkhtmltopdf='/usr/bin/wkhtmltopdf')
 
-        fetch_invoice = Invoices.query.filter(Invoices.id == id).first()
+        fetch_invoice = (
+            db.session.query(Invoices,Customers)
+            .filter(Invoices.id == id)
+            .join(Customers, Invoices.customer_id == Customers.id)
+            .first()
+        )
 
         if fetch_invoice:
-        
-            for column in fetch_invoice.__table__.columns:
 
-                column_value = (getattr(fetch_invoice, column.name))
+            i,c = fetch_invoice
+        
+            for column in i.__table__.columns:
+
+                column_value = (getattr(i, column.name))
 
                 if not column_value:
                     column_value = ''
 
                 data[column.name] = column_value
             
-            data['invoice_json'] = json.loads(fetch_invoice.invoice_json)
-            invoice_date = fetch_invoice.invoice_date
+            data['invoice_json'] = json.loads(i.invoice_json)
+            invoice_date = i.invoice_date
             data['invoice_date'] = f"{invoice_date.day}/{invoice_date.month}/{invoice_date.year}"
+
+            # Fetching customer details
+
+            data['customer_id'] = fetch_value_or_none(c,'id',default="")
+            data['customer_name'] = fetch_value_or_none(c,'customer_name',default="")
+            data['customer_place'] = fetch_value_or_none(c,'customer_place',default="")
+            data['mobile_no'] = fetch_value_or_none(c,'mobile_no',default="")
+            data['discount_percentage'] = fetch_value_or_none(c,'discount_percentage',default="")
+            data['gst_no'] = fetch_value_or_none(c,'gst_no',default="")
 
 
             fetch_company_details = Company.query.first()

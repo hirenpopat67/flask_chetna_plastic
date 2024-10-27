@@ -3,7 +3,7 @@ from app.models.models import Invoices,Customers,Products
 import json
 from app.routes.add_invoice import invoice_data_validator,invoice_data_processor
 from datetime import datetime
-from app import db
+from app import db,fetch_value_or_none
 from flask_login import login_required
 
 edit_invoice_blueprint = Blueprint('edit_invoice_blueprint', __name__)
@@ -17,7 +17,12 @@ def edit_invoice():
 
         id = request.args.get('id',None)
 
-        fetch_invoice = Invoices.query.filter(Invoices.id == id).first()
+        fetch_invoice = (
+            db.session.query(Invoices,Customers)
+            .filter(Invoices.id == id)
+            .join(Customers, Invoices.customer_id == Customers.id)
+            .first()
+        )
 
         if request.method == 'POST':
             action = request.form.get('action',None)
@@ -40,20 +45,28 @@ def edit_invoice():
             
             invoice_data_processed_json = json.dumps(invoice_data_processed)
 
+            fetch_customer_name = Customers.query.filter(Customers.id == invoice_data_processed.get('customer_id')).first()
+
+            if fetch_customer_name:
+                customer_name = fetch_customer_name.customer_name
+            else:
+                customer_name = None
+
             if fetch_invoice:
 
-                fetch_invoice.customer_name = invoice_data['customer_name'][0]
-                fetch_invoice.customer_place = invoice_data['customer_place'][0]
-                fetch_invoice.invoice_date = datetime.strptime(invoice_data['invoice_date'][0], '%Y-%m-%d')
-                fetch_invoice.invoice_json = invoice_data_processed_json
-                fetch_invoice.is_gst = is_gst
+                i,c = fetch_invoice
+
+                i.customer_id = invoice_data_processed.get('customer_id')
+                i.invoice_date = datetime.strptime(invoice_data['invoice_date'][0], '%Y-%m-%d')
+                i.invoice_json = invoice_data_processed_json
+                i.is_gst = is_gst
 
                 try:
                     db.session.commit()
-                    flash(f"{invoice_data['customer_name'][0]} Customer Invoice successfully updated",'success')
+                    flash(f"{customer_name} Customer Invoice successfully updated",'success')
 
                     if action == "update_and_print":
-                        return redirect(f'/view_invoice?id={fetch_invoice.id}')
+                        return redirect(f'/view_invoice?id={i.id}')
                     
                     if is_gst:
                         return redirect('all_gst_invoices')
@@ -68,17 +81,34 @@ def edit_invoice():
                 return redirect('/all_invoices')
 
         else:
-    
-            for column in fetch_invoice.__table__.columns:
 
-                column_value = (getattr(fetch_invoice, column.name))
+            if fetch_invoice:
+
+                i,c = fetch_invoice
+            else:
+                flash('Invoice not found','error')
+                return redirect('/all_invoices')
+
+    
+            for column in i.__table__.columns:
+
+                column_value = (getattr(i, column.name))
 
                 if not column_value:
                     column_value = ''
 
                 data[column.name] = column_value
             
-                data['invoice_json'] = json.loads(fetch_invoice.invoice_json)
+                data['invoice_json'] = json.loads(i.invoice_json)
+
+            # Fetching customer details
+
+            data['customer_id'] = fetch_value_or_none(c,'id',default="")
+            data['customer_name'] = fetch_value_or_none(c,'customer_name',default="")
+            data['customer_place'] = fetch_value_or_none(c,'customer_place',default="")
+            data['mobile_no'] = fetch_value_or_none(c,'mobile_no',default="")
+            data['discount_percentage'] = fetch_value_or_none(c,'discount_percentage',default="")
+            data['gst_no'] = fetch_value_or_none(c,'gst_no',default="")
 
             all_customers = Customers.query.order_by(Customers.customer_name).all()
 

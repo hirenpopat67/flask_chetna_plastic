@@ -90,3 +90,15 @@ try:
     app.logger.info('ChetnaPlastic startup')
 except:
     app.logger.exception("Logging is Disabled!")
+
+
+def fetch_value_or_none(obj, *attrs,default=None):
+    try:
+        for attr in attrs:
+            obj = getattr(obj, attr)
+        
+        if obj == None:
+            obj = default
+        return obj
+    except (AttributeError, TypeError):
+        return default

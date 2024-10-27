@@ -59,11 +59,17 @@ def add_invoice():
 
             print("invoice_data_processed_json> ",invoice_data_processed_json)
 
+            fetch_customer_name = Customers.query.filter(Customers.id == invoice_data_processed.get('customer_id')).first()
+
+            if fetch_customer_name:
+                customer_name = fetch_customer_name.customer_name
+            else:
+                customer_name = None
+
             add_new_invoice_data = Invoices(
-                invoice_no = invoice_data['invoice_number'][0],
-                customer_name = invoice_data['customer_name'][0],
-                customer_place = invoice_data['customer_place'][0],
-                invoice_date = datetime.strptime(invoice_data['invoice_date'][0], '%Y-%m-%d'),
+                invoice_no = invoice_data_processed.get('invoice_number'),
+                customer_id = invoice_data_processed.get('customer_id'),
+                invoice_date = datetime.strptime(invoice_data_processed.get('invoice_date'), '%Y-%m-%d'),
                 invoice_json = invoice_data_processed_json,
                 is_gst = is_gst,
             )
@@ -72,7 +78,7 @@ def add_invoice():
 
             try:
                 db.session.commit()
-                flash(f"{invoice_data['customer_name'][0]} Customer Invoice successfully added",'success')
+                flash(f"{customer_name} Customer Invoice successfully added",'success')
 
                 if action == "save_and_print":
                     return redirect(f'/view_invoice?id={add_new_invoice_data.id}')
@@ -113,8 +119,11 @@ def invoice_data_validator(invoice_data):
         return "Error: Incorrect Invoice Date"
 
     # customer-name
-    if len(invoice_data['customer_name'][0]) < 1:
-        print("Error: Incorrect Customer Name")
+    # invoice-number
+    try:
+        customer_id = int(invoice_data['customer_id'][0])
+    except:
+        print("Error: IncorIncorrect Customer Name")
         return "Error: Incorrect Customer Name"
 
     return None
@@ -127,13 +136,10 @@ def invoice_data_processor(invoice_data):
 
     # Convert ImmutableMultiDict to a list of dictionaries
 
-    processed_invoice_data['customer_name'] = invoice_data['customer_name'][0]
-    processed_invoice_data['customer_place'] = invoice_data['customer_place'][0]
-    processed_invoice_data['customer_mobile_no'] = invoice_data['customer_mobile_no'][0]
-    processed_invoice_data['customer_gst_no'] = invoice_data['customer_gst_no'][0]
+    processed_invoice_data['customer_id'] = int(invoice_data['customer_id'][0])
     processed_invoice_data['parcel_details'] = invoice_data['parcel_details'][0]
     processed_invoice_data['note'] = invoice_data['note'][0]
-    processed_invoice_data['invoice_number'] = invoice_data['invoice_number'][0]
+    processed_invoice_data['invoice_number'] = int(invoice_data['invoice_number'][0])
     processed_invoice_data['invoice_date'] = invoice_data['invoice_date'][0]
 
     processed_invoice_data['items'] = []

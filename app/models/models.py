@@ -31,8 +31,7 @@ class Invoices(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     invoice_no = db.Column(db.Integer,unique=True)
-    customer_name = db.Column(db.Text)
-    customer_place = db.Column(db.Text)
+    customer_id = db.Column(db.Integer)
     invoice_date  = db.Column(db.Date)
     invoice_json = db.Column(db.Text)
     is_gst = db.Column(BOOLEAN, default=False)

@@ -29,10 +29,10 @@ Add Invoice
             
             <!-- <input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Customer Name" list="customer_names"required autocomplete="off"> -->
 
-                  <select name="customer_name" class="form-select-lg chosen-select" id="customer_name"  data-placeholder="Choose Customer" required>
+                  <select name="customer_id" class="form-select-lg chosen-select" id="customer_name"  data-placeholder="Choose Customer" required>
                     <option></option>
                     {% for x in context.all_customers %}
-                        <option data-name="{{x.customer_name}}" value="{{x.customer_name}}" 
+                        <option data-name="{{x.customer_name}}" value="{{x.id}}" 
                                 data-place="{{x.customer_place}}"
                                 data-mobile="{{x.mobile_no}}"
                                 data-gst="{{x.gst_no}}"
@@ -53,17 +53,17 @@ Add Invoice
         </datalist>
 
           <div class="col-md-6 form-floating">
-            <input type="number" class="form-control" name="customer_mobile_no" id="customer_mobile_no" placeholder="Customer Mobile Number" readonly>
+            <input type="number" class="form-control" id="customer_mobile_no" placeholder="Customer Mobile Number" readonly>
             <label for="floatingPassword">Customer Mobile Number</label>
           </div>
   
           <div class="col-md-6 form-floating">
-            <input type="text" class="form-control" name="customer_place" id="customer_place" placeholder="Customer Place" readonly>
+            <input type="text" class="form-control" id="customer_place" placeholder="Customer Place" readonly>
             <label for="floatingPassword">Customer Place</label>
           </div>
 
           <div class="col-md-6 form-floating">
-            <input type="text" class="form-control" name="customer_gst_no" id="customer_gst_no" placeholder="Customer GST Number" readonly>
+            <input type="text" class="form-control" id="customer_gst_no" placeholder="Customer GST Number" readonly>
             <label for="floatingPassword">Customer GST Number</label>
         </div>
 
@@ -193,7 +193,7 @@ Add Invoice
     }
     
     // Set the respective fields using the helper function
-    setValidFieldValue("customer_name", customerName);
+    // setValidFieldValue("customer_name", customerName);
     setValidFieldValue("customer_place", customerPlace);
     setValidFieldValue("customer_mobile_no", customerMobile);
     setValidFieldValue("customer_gst_no", customerGst);
